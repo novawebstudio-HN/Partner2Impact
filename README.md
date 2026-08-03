@@ -1,106 +1,154 @@
-# Partner2Impact — website redesign
+# Partner2Impact — website
 
-A rebuilt version of [partner2impact.com](https://partner2impact.com), replacing the 2020
-GoDaddy-builder site with a hand-built, responsive, accessible static site.
+The 2026 refresh of [partner2impact.com](https://partner2impact.com), repositioned around a
+single audience and a single value proposition: **nonprofits using data to improve their
+fundraising.**
 
-Everything is plain HTML, CSS and vanilla JavaScript — no build step, no framework, no
-dependencies. Drop the folder on any static host and it works.
+Plain HTML, CSS and vanilla JavaScript — no build step, no framework, no dependencies. Drop
+the folder on any static host and it works.
 
 ---
 
+## Where the content comes from
+
+All copy follows Tracey's brand brief (the Gemini planning session, `Website Refresh for
+Nonprofit Data`). None of the pre-2026 website copy was carried over — that was an explicit
+requirement.
+
+The positioning: 20+ years of nonprofit fundraising strategy (Tracey Wiseman) combined with
+predictive data intelligence (David Galvin, *"data is currency"*). Headline, pain points,
+solution grid, Extract/Enrich/Execute, bios, and the lead-capture form all come from the
+approved copy in that brief.
+
 ## Pages
 
-| File | Replaces | Purpose |
-| --- | --- | --- |
-| `index.html` | `/home` | Hero, capabilities, positioning, services overview, process, team, clients, CTA |
-| `about.html` | `/about-1` | Firm story, engagement principles, team bios, FAQ |
-| `services.html` | `/services` | The three practice areas in detail + engagement models |
-| `clients.html` | `/client-list` | Sectors served and the partial client list |
-| `contact.html` | `/contact-us` | Contact details and a validated enquiry form |
-| `404.html` | — | Not-found page |
+| File | Purpose |
+| --- | --- |
+| `index.html` | Hero, the hard truth, solution grid, data-as-currency, partners, CTA |
+| `tool.html` | The Data Tool — scoring, prospect discovery, how it fits your CRM |
+| `consulting.html` | Consulting & Strategy — campaigns, alignment, pipeline growth |
+| `about.html` | Tracey & David, why the partnership, track record, FAQ |
+| `contact.html` | 15-minute data health check request form |
+| `404.html` | Not-found page |
+
+The previous `services.html` and `clients.html` are gone. The client list survives, trimmed
+to nonprofit-sector organizations, as a track-record block inside `about.html`.
 
 ## Project structure
 
 ```
 .
-├── index.html  about.html  services.html  clients.html  contact.html  404.html
+├── index.html  tool.html  consulting.html  about.html  contact.html  404.html
 ├── robots.txt  sitemap.xml
 ├── assets/
 │   ├── css/
-│   │   ├── fonts.css      # @font-face declarations for the self-hosted webfonts
+│   │   ├── fonts.css      # @font-face for the self-hosted webfonts
 │   │   └── styles.css     # design system + all component styles
-│   ├── fonts/             # Fraunces + Inter, woff2, latin & latin-ext subsets
+│   ├── fonts/             # Plus Jakarta Sans + Inter, woff2, latin & latin-ext
 │   ├── img/               # optimised logo, headshots, favicon
 │   └── js/
 │       └── main.js        # nav, scroll reveal, form handling
 └── Parnet2Impact Assets/  # original source files as supplied
 ```
 
-## Running it locally
+## Design system
 
-No build required. Serve the folder over HTTP (opening the files directly with `file://`
-works, except the self-hosted fonts, which browsers block over that protocol):
+Palette from the brand brief, with one deliberate adjustment:
+
+| Token | Value | Use |
+| --- | --- | --- |
+| `--navy` / `--navy-900` | `#0f172a` / `#020617` | Trust, authority — dark sections and text |
+| `--teal-bright` | `#0d9488` | Brief's data-science colour — **graphics, fills and borders only** |
+| `--teal` / `--teal-600` | `#0f766e` / `#115e59` | Same hue, darkened — used wherever text sits on or in it |
+| `--amber-bright` | `#d97706` | Brief's "currency" accent — **graphics only** |
+| `--amber` / `--amber-600` | `#b45309` / `#92400e` | Darkened — primary CTA buttons |
+| `--sand` | `#f8fafc` | Soft slate backgrounds |
+
+**Why the split:** the brief's `#0d9488` and `#d97706` measure 3.74:1 and 3.19:1 against
+white, below the 4.5:1 WCAG AA threshold for text. White button labels on those backgrounds
+would be hard to read. The bright shades are kept for anything purely visual; text and
+button surfaces use the darker pair. Visually the brand reads the same; every text pairing
+on the site now measures 5:1 or better.
+
+Typography is Plus Jakarta Sans (display) and Inter (body), both named in the brief and both
+self-hosted.
+
+## Running it locally
 
 ```bash
 python3 -m http.server 8000
 # then open http://localhost:8000
 ```
 
-## Deploying
+Serve over HTTP rather than opening files directly — browsers block self-hosted fonts over
+`file://`.
 
-Any static host works — GitHub Pages, Netlify, Cloudflare Pages, Vercel, or the existing
-hosting via FTP. There is nothing to compile.
+## Publishing
 
-If you deploy somewhere other than the site root, note that `404.html` uses absolute paths
-(`/assets/…`) while the five main pages use relative ones, so they survive a subdirectory
-deploy on their own.
+Nothing to compile. Three routes, in order of preference:
 
-## Wiring up the contact form
+1. **Static host + GoDaddy domain** — deploy to GitHub Pages, Netlify or Cloudflare Pages
+   and point the existing GoDaddy DNS at it. The domain never moves.
+2. **GoDaddy cPanel / Web Hosting** — upload the folder over FTP. Stays entirely within
+   GoDaddy, but note this is a different product from GoDaddy Website Builder.
+3. **GoDaddy Website Builder** — not compatible. The builder does not accept custom
+   HTML/CSS, so the site would have to be rebuilt inside its block editor and would lose
+   this layout.
 
-The form works out of the box with no backend: on submit it opens the visitor's mail client
-with the message pre-filled and addressed to `Hello@Partner2Impact.com`.
+`404.html` uses absolute asset paths (`/assets/…`) so it works from any URL depth; the five
+main pages use relative paths so they survive a subdirectory deploy.
 
-To have submissions delivered straight to an inbox instead, set the endpoint near the top of
-the contact-form section in `assets/js/main.js`:
+## Wiring up the form
+
+The form works with no backend: on submit it opens the visitor's mail client with the
+message pre-filled and addressed to `Hello@Partner2Impact.com`.
+
+To deliver submissions to an inbox or CRM instead, set the endpoint in `assets/js/main.js`:
 
 ```js
 var FORM_ENDPOINT = 'https://formspree.io/f/xxxxxxx';
 ```
 
-Any service accepting a `FormData` POST (Formspree, Basin, Netlify Forms, Web3Forms, a custom
-handler) will work — the client-side validation, the honeypot spam trap and the success and
-error states are already in place.
+Any service accepting a `FormData` POST works — Formspree, Basin, Netlify Forms, HubSpot, or
+a custom handler. Client-side validation, the honeypot spam trap, and the success and error
+states are already in place. The form posts `name`, `organization`, `email`, `phone`, `crm`,
+`challenge` and `message`.
 
-To change the address the form and the site link to, update `CONTACT_EMAIL` in
-`assets/js/main.js` and the `mailto:` links in the page footers.
+For live booking, a Calendly (or similar) link can replace the `contact.html#audit` targets
+in the navigation and CTA bands.
 
-## What changed from the original
+## Technical
 
-**Content** — all original copy is preserved (headlines, service lists, team bios, the client
-list, the "If not now, when?" call to action). Added copy expands on what was already there;
-no claims, statistics or testimonials were invented.
-
-**Structure** — the client list moved from a single paragraph to a scannable grid, services
-gained per-item descriptions, and every page ends with the same booking call to action.
-
-**Design** — a real type system (Fraunces for display, Inter for text), a palette sampled from
-the logo itself (navy `#102f54`, maroon `#7a2246`), consistent spacing, cards, and section
-rhythm.
-
-**Technical**
-- Responsive from 320px up; no horizontal overflow at any width
+- Responsive from 320px; verified for zero horizontal overflow at 360 / 390 / 768 / 1440
 - Self-hosted webfonts — no third-party requests anywhere on the site
-- Images converted to WebP with JPEG fallbacks available; the 17 MB source headshot is now
-  20–100 KB depending on the size served
-- Accessibility: skip link, landmarks, visible focus rings, labelled form fields with inline
-  error messages, `aria-current` on the active nav item, and text contrast that meets WCAG AA
+- Images in WebP with JPEG fallbacks; the 17 MB source headshot serves at 20–100 KB
+- Accessibility: skip link, landmarks, visible focus rings, labelled fields with inline
+  errors, `aria-current` nav, WCAG AA text contrast throughout
+- The hero dashboard is built in CSS and inline SVG — no image request, and it carries an
+  `aria-label` describing it for screen readers
 - `prefers-reduced-motion` disables all animation
-- SEO: per-page titles and meta descriptions, canonical URLs, Open Graph tags,
-  `ProfessionalService` structured data, `sitemap.xml` and `robots.txt`
-- Print stylesheet
+- SEO: per-page titles and descriptions, canonicals, Open Graph, `ProfessionalService`
+  structured data, `sitemap.xml`, `robots.txt`
 
-## Assets
+## Open items before launch
 
-Source files supplied in `Parnet2Impact Assets/` (logo, Tracey's headshot, David's headshot)
-are kept as-is. The optimised derivatives used by the site live in `assets/img/` and can be
-regenerated at any time from the originals.
+These need Tracey's confirmation — they are claims or assets the site presents as fact:
+
+1. **The hero dashboard is illustrative.** The figures ($2.4M portfolio, the donor names and
+   scores) are invented placeholders to show the shape of the output. They are labelled as
+   illustrative in the markup comment and no client data is implied, but if the real tool has
+   a different interface, swap in a screenshot.
+2. **"Secure major gifts / capital campaigns"** in Tracey's bio comes from the brief. Worth
+   confirming the wording matches what she wants to claim publicly.
+3. **David's title changed** from the old site's "public outreach strategist, Emmy
+   Award–winning writer and producer" to "senior data scientist," per Tracey's own
+   description of him in the brief. His earlier credentials are no longer mentioned anywhere
+   — confirm that is intended.
+4. **The tool has no product name** on the site. If it gets one, it should replace the
+   generic "the tool" references.
+5. **The logo is the existing one.** The brief calls for a redesigned mark in the new
+   palette; the current navy-and-maroon logo is a placeholder until that exists.
+6. **Contact email** — `Hello@Partner2Impact.com`, carried from the old site. Confirm it is
+   still monitored.
+7. **CRM list** on the homepage and in the form dropdown is a reasonable default set. Trim or
+   extend it to the systems the tool actually integrates with.

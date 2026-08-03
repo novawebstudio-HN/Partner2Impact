@@ -211,14 +211,15 @@
         'Organization: ' + (data.get('organization') || '—'),
         'Email: ' + (data.get('email') || ''),
         'Phone: ' + (data.get('phone') || '—'),
-        'Interested in: ' + (data.get('interest') || '—'),
+        'CRM: ' + (data.get('crm') || '—'),
+        'Primary challenge: ' + (data.get('challenge') || '—'),
         '',
         (data.get('message') || '')
       ];
 
       var href =
         'mailto:' + CONTACT_EMAIL +
-        '?subject=' + encodeURIComponent('Website enquiry — ' + (data.get('name') || 'New contact')) +
+        '?subject=' + encodeURIComponent('Data health check request — ' + (data.get('organization') || data.get('name') || 'New enquiry')) +
         '&body=' + encodeURIComponent(lines.join('\n'));
 
       window.location.href = href;
