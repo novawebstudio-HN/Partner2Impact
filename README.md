@@ -24,7 +24,7 @@ approved copy in that brief.
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | Hero, the hard truth, solution grid, data-as-currency, partners, CTA |
+| `index.html` | Hero, the four signals, the hard truth, solution grid, data-as-currency, partners, CTA |
 | `tool.html` | The Data Tool — scoring, prospect discovery, how it fits your CRM |
 | `consulting.html` | Consulting & Strategy — campaigns, alignment, pipeline growth |
 | `about.html` | Tracey & David, why the partnership, track record, FAQ |
@@ -50,6 +50,19 @@ to nonprofit-sector organizations, as a track-record block inside `about.html`.
 │       └── main.js        # nav, scroll reveal, form handling
 └── Parnet2Impact Assets/  # original source files as supplied
 ```
+
+## The "four signals" band
+
+The band under the hero (`#signals` on `index.html`) is a rebuild of Tracey's "Fusion of
+Predictive Data and Strategy" graphic. Her wording is kept verbatim — major gift prospects,
+lapse risk, upgrade donors, new prospects, and the "empowering nonprofit fundraising"
+footnote. The AI-generated artwork it came from is not used.
+
+It is built from CSS and inline SVG rather than an image: it stays crisp at any size, costs
+no image request, reflows to one column on mobile, and the text is real text (selectable,
+translatable, indexable). The left-to-right progression that the original showed with arrows
+is carried by the rule across each card top, which fills 25 / 50 / 75 / 100 percent. Lapse
+risk is the one amber card, because amber means "act on this" everywhere else on the site.
 
 ## Design system
 
@@ -140,10 +153,9 @@ These need Tracey's confirmation — they are claims or assets the site presents
    a different interface, swap in a screenshot.
 2. **"Secure major gifts / capital campaigns"** in Tracey's bio comes from the brief. Worth
    confirming the wording matches what she wants to claim publicly.
-3. **David's title changed** from the old site's "public outreach strategist, Emmy
-   Award–winning writer and producer" to "senior data scientist," per Tracey's own
-   description of him in the brief. His earlier credentials are no longer mentioned anywhere
-   — confirm that is intended.
+3. **David's title** is **Decision Intelligence Lead** throughout, per Tracey. The old
+   site's "public outreach strategist, Emmy Award–winning writer and producer" is no longer
+   mentioned anywhere — confirm that is intended.
 4. **The tool has no product name** on the site. If it gets one, it should replace the
    generic "the tool" references.
 5. **The logo is the existing one.** The brief calls for a redesigned mark in the new
