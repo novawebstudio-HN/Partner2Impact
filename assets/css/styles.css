@@ -1483,3 +1483,108 @@ strong { font-weight: 650; }
   background: var(--amber-600);
   box-shadow: 0 16px 32px rgba(180, 83, 9, 0.36);
 }
+
+/* --------------------------------------------------------------------------
+   Fusion band — the four signals
+   A clean rebuild of the "Fusion of Predictive Data and Strategy" concept:
+   four panels, left to right, with a progression rule that fills as the
+   sequence advances. Built in CSS + inline SVG, so it stays crisp at any
+   size and needs no image request.
+   -------------------------------------------------------------------------- */
+
+.fusion {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: clamp(1rem, 0.8rem + 0.9vw, 1.5rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: fusion;
+}
+
+.fusion-card {
+  --accent: var(--teal-bright);
+  --accent-ink: var(--teal-600);
+  --accent-tint: rgba(13, 148, 136, 0.1);
+  --fill: 100%;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: clamp(1.35rem, 1.15rem + 0.8vw, 1.75rem);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.fusion-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+/* Progression rule across the top: fills further on each successive card */
+.fusion-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent) var(--fill), var(--line) var(--fill));
+}
+
+.fusion-card--risk {
+  --accent: var(--amber-bright);
+  --accent-ink: var(--amber-600);
+  --accent-tint: rgba(217, 119, 6, 0.11);
+}
+
+.fusion-icon {
+  display: grid;
+  place-items: center;
+  width: 2.85rem; height: 2.85rem;
+  margin-bottom: 1.1rem;
+  border-radius: 13px;
+  background: var(--accent-tint);
+  color: var(--accent-ink);
+}
+
+.fusion-chip {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem 0.6rem;
+  margin-bottom: 0.7rem;
+  border-radius: 999px;
+  background: var(--accent-tint);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+
+.fusion-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+.fusion-card p {
+  font-size: 0.93rem;
+  color: var(--slate-500);
+  margin-bottom: 0;
+}
+
+/* The sequence reads through the progression rule alone — no connector
+   arrows. They would need the cards to drop `overflow: hidden`, which the
+   rule relies on to follow the rounded corners, and they add clutter to a
+   layout whose whole point is being cleaner than the original. */
+
+.fusion-footnote {
+  margin-top: clamp(1.5rem, 1.2rem + 1vw, 2.25rem);
+  text-align: center;
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate-500);
+}
