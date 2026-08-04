@@ -24,8 +24,8 @@ approved copy in that brief.
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | Hero, the four signals, the hard truth, solution grid, data-as-currency, partners, CTA |
-| `tool.html` | The Data Tool — scoring, prospect discovery, how it fits your CRM |
+| `index.html` | Dark hero with the four signals, the hard truth, solution grid, data-as-currency, partners, CTA |
+| `tool.html` | The Data Tool — scoring, prospect discovery, the dashboard view, how it fits your CRM |
 | `consulting.html` | Consulting & Strategy — campaigns, alignment, pipeline growth |
 | `about.html` | Tracey & David, why the partnership, track record, FAQ |
 | `contact.html` | 15-minute data health check request form |
@@ -51,18 +51,24 @@ to nonprofit-sector organizations, as a track-record block inside `about.html`.
 └── Parnet2Impact Assets/  # original source files as supplied
 ```
 
-## The "four signals" band
+## The hero and the four signals
 
-The band under the hero (`#signals` on `index.html`) is a rebuild of Tracey's "Fusion of
-Predictive Data and Strategy" graphic. Her wording is kept verbatim — major gift prospects,
-lapse risk, upgrade donors, new prospects, and the "empowering nonprofit fundraising"
-footnote. The AI-generated artwork it came from is not used.
+The hero is a single dark section: headline, actions, and Tracey's four signals underneath.
+The signals are the hero's visual payload, so there is **one** headline at the top of the
+page rather than two competing ones.
 
-It is built from CSS and inline SVG rather than an image: it stays crisp at any size, costs
-no image request, reflows to one column on mobile, and the text is real text (selectable,
-translatable, indexable). The left-to-right progression that the original showed with arrows
-is carried by the rule across each card top, which fills 25 / 50 / 75 / 100 percent. Lapse
-risk is the one amber card, because amber means "act on this" everywhere else on the site.
+The signals are a rebuild of Tracey's "Fusion of Predictive Data and Strategy" graphic. Her
+wording is kept verbatim — major gift prospects, lapse risk, upgrade donors, new prospects,
+plus the "empowering nonprofit fundraising" footnote. The AI-generated artwork is not used.
+
+Built from CSS and inline SVG rather than an image: crisp at any size, no image request,
+reflows to one column on mobile, and the text is real text (selectable, translatable,
+indexable). Each card carries a five-bar mini chart — rising for the three opportunity
+signals, falling for lapse risk, because that is the shape of the thing being described.
+Lapse risk is also the one amber card, matching what amber means everywhere else on the site.
+
+The donor-intelligence dashboard now lives on `tool.html`, where a product view belongs,
+with a caption stating that the figures are illustrative.
 
 ## Design system
 
@@ -137,8 +143,10 @@ in the navigation and CTA bands.
 - Images in WebP with JPEG fallbacks; the 17 MB source headshot serves at 20–100 KB
 - Accessibility: skip link, landmarks, visible focus rings, labelled fields with inline
   errors, `aria-current` nav, WCAG AA text contrast throughout
-- The hero dashboard is built in CSS and inline SVG — no image request, and it carries an
-  `aria-label` describing it for screen readers
+- The hero and the tool dashboard are built in CSS and inline SVG — no image requests, and
+  the dashboard carries an `aria-label` describing it for screen readers
+- Text contrast on the dark hero was measured against the darkest gradient stop, not the
+  average, so every pairing holds at the worst point (lowest is 5.25:1)
 - `prefers-reduced-motion` disables all animation
 - SEO: per-page titles and descriptions, canonicals, Open Graph, `ProfessionalService`
   structured data, `sitemap.xml`, `robots.txt`
@@ -147,10 +155,9 @@ in the navigation and CTA bands.
 
 These need Tracey's confirmation — they are claims or assets the site presents as fact:
 
-1. **The hero dashboard is illustrative.** The figures ($2.4M portfolio, the donor names and
-   scores) are invented placeholders to show the shape of the output. They are labelled as
-   illustrative in the markup comment and no client data is implied, but if the real tool has
-   a different interface, swap in a screenshot.
+1. **The dashboard on `tool.html` is illustrative.** The figures ($2.4M portfolio, the donor
+   names and scores) are invented placeholders showing the shape of the output. A visible
+   caption says so. If the real tool looks different, swap in a screenshot.
 2. **"Secure major gifts / capital campaigns"** in Tracey's bio comes from the brief. Worth
    confirming the wording matches what she wants to claim publicly.
 3. **David's title** is **Decision Intelligence Lead** throughout, per Tracey. The old
