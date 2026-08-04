@@ -72,10 +72,11 @@
 
 <main id="main">
 
-  <!-- ================= 1. HERO ================= -->
+  <!-- ================= HERO — headline + the four signals ================= -->
   <section class="hero">
-    <div class="shell hero-grid">
-      <div data-reveal>
+    <div class="shell">
+
+      <div class="hero-lead" data-reveal>
         <p class="eyebrow">Smarter data. Stronger relationships.</p>
         <h1>Your donor data is currency. It’s time to spend it wisely.</h1>
         <p class="hero-lede">
@@ -83,148 +84,57 @@
           intelligence to help nonprofits uncover hidden major gifts, re-engage lapsed
           donors, and maximize revenue.
         </p>
-
         <div class="hero-actions">
           <a class="btn btn--amber" href="contact.html#audit">
             Get your 15-minute data health check <span class="arrow" aria-hidden="true">→</span>
           </a>
-          <a class="btn btn--ghost" href="tool.html">Explore the tool</a>
-        </div>
-
-        <p class="hero-proof">
-          <span><strong>Built for nonprofits</strong></span>
-          <span>Major gifts · Lapsed donors · Prospect discovery</span>
-        </p>
-      </div>
-
-      <div class="hero-visual" data-reveal data-reveal-delay="120">
-        <!-- Illustrative dashboard — represents the kind of output the tool produces.
-             Figures shown are examples, not a client's real data. -->
-        <div class="dash" role="img"
-             aria-label="Illustrative donor intelligence dashboard showing portfolio value, lapse-risk alerts, predictive donor scores and a revenue trend chart.">
-          <div class="dash-bar" aria-hidden="true">
-            <i></i><i></i><i></i>
-            <span>DONOR INTELLIGENCE</span>
-          </div>
-
-          <div class="dash-body" aria-hidden="true">
-            <div class="dash-kpis">
-              <div class="dash-kpi">
-                <span class="k">Portfolio</span>
-                <span class="v">$2.4M</span>
-                <span class="d">▲ 18%</span>
-              </div>
-              <div class="dash-kpi">
-                <span class="k">Lapse risk</span>
-                <span class="v">37</span>
-                <span class="d d--amber">Act now</span>
-              </div>
-              <div class="dash-kpi">
-                <span class="k">New prospects</span>
-                <span class="v">142</span>
-                <span class="d">▲ 24</span>
-              </div>
-            </div>
-
-            <div class="dash-panel">
-              <h4>Predictive donor scores</h4>
-              <div class="dash-rows">
-                <div class="dash-row">
-                  <span class="who">M. Alvarez <span class="meta">Capacity increased · ready to upgrade</span></span>
-                  <span class="dash-score">94</span>
-                  <span class="dash-track"><i style="--w:94%"></i></span>
-                </div>
-                <div class="dash-row">
-                  <span class="who">Whitfield Trust <span class="meta">Lapse risk · 14 months since last gift</span></span>
-                  <span class="dash-score dash-score--amber">71</span>
-                  <span class="dash-track"><i class="is-amber" style="--w:71%"></i></span>
-                </div>
-                <div class="dash-row">
-                  <span class="who">J. Okonkwo <span class="meta">New prospect · high mission affinity</span></span>
-                  <span class="dash-score">88</span>
-                  <span class="dash-track"><i style="--w:88%"></i></span>
-                </div>
-              </div>
-            </div>
-
-            <div class="dash-panel">
-              <h4>Revenue trend</h4>
-              <svg class="dash-chart" viewBox="0 0 320 78" preserveAspectRatio="none" aria-hidden="true">
-                <defs>
-                  <linearGradient id="dashFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#2dd4bf" stop-opacity="0.38"/>
-                    <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0"/>
-                  </linearGradient>
-                </defs>
-                <line class="grid-line" x1="0" y1="20" x2="320" y2="20"/>
-                <line class="grid-line" x1="0" y1="45" x2="320" y2="45"/>
-                <line class="grid-line" x1="0" y1="70" x2="320" y2="70"/>
-                <path class="area" d="M0,64 L46,58 L92,60 L138,44 L184,46 L230,28 L276,20 L320,8 L320,78 L0,78 Z"/>
-                <path class="line" d="M0,64 L46,58 L92,60 L138,44 L184,46 L230,28 L276,20 L320,8"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="dash-float">
-          <span class="n">20+</span>
-          <span class="l">Years in nonprofit fundraising</span>
+          <a class="btn btn--outline-light" href="tool.html">Explore the tool</a>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ================= 1b. FUSION OF PREDICTIVE DATA AND STRATEGY ================= -->
-  <section class="section section--tight" id="signals">
-    <div class="shell">
-      <div class="section-head section-head--center" data-reveal>
-        <p class="eyebrow" style="justify-content:center">Fusion of predictive data and strategy</p>
-        <h2>Four signals your database is already sending</h2>
-        <p>
-          Every record scored, sorted and ready to act on — so your team knows where the
-          next gift is coming from before the quarter closes.
-        </p>
-      </div>
+      <p class="hero-label" data-reveal>Fusion of predictive data and strategy</p>
 
-      <ol class="fusion">
-        <li class="fusion-card" style="--fill:25%" data-reveal>
-          <div class="fusion-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M6 3l3 6 3 12 3-12 3-6"/><path d="M3 9h18"/></svg>
+      <ol class="signals">
+        <li class="signal" data-reveal data-reveal-delay="0">
+          <div class="signal-icon">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M6 3l3 6 3 12 3-12 3-6"/><path d="M3 9h18"/></svg>
           </div>
-          <span class="fusion-chip">High capacity</span>
-          <h3>Major gift prospects</h3>
+          <span class="signal-chip">High capacity</span>
+          <h2>Major gift prospects</h2>
           <p>Identifying high-net-worth individuals with significant contribution capacity.</p>
+          <span class="signal-bars" aria-hidden="true"><i style="--h:30%;--i:0"></i><i style="--h:46%;--i:1"></i><i style="--h:40%;--i:2"></i><i style="--h:68%;--i:3"></i><i style="--h:92%;--i:4"></i></span>
         </li>
-
-        <li class="fusion-card fusion-card--risk" style="--fill:50%" data-reveal data-reveal-delay="90">
-          <div class="fusion-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h12M6 22h12"/><path d="M6 2v4.5a6 6 0 0 0 6 5.5 6 6 0 0 0 6-5.5V2"/><path d="M6 22v-4.5a6 6 0 0 1 6-5.5 6 6 0 0 1 6 5.5V22"/></svg>
+        <li class="signal signal--risk" data-reveal data-reveal-delay="90">
+          <div class="signal-icon">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h12M6 22h12"/><path d="M6 2v4.5a6 6 0 0 0 6 5.5 6 6 0 0 0 6-5.5V2"/><path d="M6 22v-4.5a6 6 0 0 1 6-5.5 6 6 0 0 1 6 5.5V22"/></svg>
           </div>
-          <span class="fusion-chip">Re-engage now</span>
-          <h3>Lapse risk</h3>
+          <span class="signal-chip">Re-engage now</span>
+          <h2>Lapse risk</h2>
           <p>Identifying donors at risk of leaving, with targeted outreach campaigns.</p>
+          <span class="signal-bars" aria-hidden="true"><i style="--h:88%;--i:0"></i><i style="--h:72%;--i:1"></i><i style="--h:60%;--i:2"></i><i style="--h:44%;--i:3"></i><i style="--h:26%;--i:4"></i></span>
         </li>
-
-        <li class="fusion-card" style="--fill:75%" data-reveal data-reveal-delay="180">
-          <div class="fusion-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5.5-5.5 3.5 3.5L21 6"/><path d="M15 6h6v6"/></svg>
+        <li class="signal" data-reveal data-reveal-delay="180">
+          <div class="signal-icon">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5.5-5.5 3.5 3.5L21 6"/><path d="M15 6h6v6"/></svg>
           </div>
-          <span class="fusion-chip">High potential</span>
-          <h3>Upgrade donors</h3>
+          <span class="signal-chip">High potential</span>
+          <h2>Upgrade donors</h2>
           <p>Moving current donors to higher giving levels with personalized upgrade offers.</p>
+          <span class="signal-bars" aria-hidden="true"><i style="--h:34%;--i:0"></i><i style="--h:44%;--i:1"></i><i style="--h:58%;--i:2"></i><i style="--h:74%;--i:3"></i><i style="--h:100%;--i:4"></i></span>
         </li>
-
-        <li class="fusion-card" style="--fill:100%" data-reveal data-reveal-delay="270">
-          <div class="fusion-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.6"/><circle cx="12" cy="12" r="0.9" fill="currentColor"/></svg>
+        <li class="signal" data-reveal data-reveal-delay="270">
+          <div class="signal-icon">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.6"/><circle cx="12" cy="12" r="0.9" fill="currentColor"/></svg>
           </div>
-          <span class="fusion-chip">High affinity</span>
-          <h3>New prospects</h3>
+          <span class="signal-chip">High affinity</span>
+          <h2>New prospects</h2>
           <p>Finding new supporters with strong mission alignment, leveraging shared interests.</p>
+          <span class="signal-bars" aria-hidden="true"><i style="--h:42%;--i:0"></i><i style="--h:38%;--i:1"></i><i style="--h:62%;--i:2"></i><i style="--h:56%;--i:3"></i><i style="--h:84%;--i:4"></i></span>
         </li>
       </ol>
 
-      <p class="fusion-footnote" data-reveal>Empowering nonprofit fundraising</p>
+      <p class="hero-footnote" data-reveal>Empowering nonprofit fundraising</p>
+
     </div>
   </section>
 
