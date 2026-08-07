@@ -117,6 +117,19 @@ Nothing to compile. Three routes, in order of preference:
 `404.html` uses absolute asset paths (`/assets/…`) so it works from any URL depth; the five
 main pages use relative paths so they survive a subdirectory deploy.
 
+### GitHub Pages notes
+
+`.nojekyll` at the repository root tells Pages to serve the files as they are instead of
+running them through Jekyll. This site is plain static HTML, so the Jekyll pass buys nothing
+and brings its conventions along — most notably that Jekyll silently drops any file or
+directory whose name starts with an underscore.
+
+If a deployment ever hangs (GitHub's `pages build and deployment` run stuck on the `deploy`
+job while `build` succeeded), cancel that run and push any commit to `main`; the merge
+triggers a fresh build and deploy. Switching Pages to the "GitHub Actions" source and
+committing an explicit workflow would also add a manual re-run button, but that is a
+repository setting change, not a code change.
+
 ## Wiring up the form
 
 The form works with no backend: on submit it opens the visitor's mail client with the
