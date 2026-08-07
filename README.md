@@ -138,6 +138,27 @@ Nothing to compile. Three routes, in order of preference:
 `404.html` uses absolute asset paths (`/assets/…`) so it works from any URL depth; the five
 main pages use relative paths so they survive a subdirectory deploy.
 
+### Redirects from the 2020 site
+
+Google still has the old site's URLs indexed, and none of them exist in the rebuild, so
+every search result led to the 404 page. Five stub files cover them:
+
+| Old URL | Goes to |
+| --- | --- |
+| `/home` | `/` |
+| `/about-1` | `/about.html` |
+| `/services` | `/consulting.html` |
+| `/client-list` | `/about.html` |
+| `/contact-us` | `/contact.html` |
+
+Static hosting cannot issue a real 301, so each stub combines `<meta http-equiv="refresh">`,
+a JavaScript `location.replace` that preserves any `#hash`, a `canonical` pointing at the
+destination, and `noindex` so the stub itself never enters the index. Search engines treat
+the canonical as the consolidation signal and fold the old URL into the new one.
+
+They are deliberately absent from `sitemap.xml` — a sitemap should list destinations, not
+redirects.
+
 ### GitHub Pages notes
 
 `.nojekyll` at the repository root tells Pages to serve the files as they are instead of
