@@ -24,7 +24,7 @@ approved copy in that brief.
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | Dark hero with the four signals, the hard truth, solution grid, data-as-currency, partners, CTA |
+| `index.html` | Dark hero with the logo lockup and the four signals, the goldmine section, solution grid, data-as-currency, partners, CTA |
 | `tool.html` | The Data Tool — scoring, prospect discovery, the dashboard view, how it fits your CRM |
 | `consulting.html` | Consulting & Strategy — campaigns, alignment, pipeline growth |
 | `about.html` | Tracey & David, why the partnership, track record, FAQ |
@@ -45,7 +45,7 @@ to nonprofit-sector organizations, as a track-record block inside `about.html`.
 │   │   ├── fonts.css      # @font-face for the self-hosted webfonts
 │   │   └── styles.css     # design system + all component styles
 │   ├── fonts/             # Plus Jakarta Sans + Inter, woff2, latin & latin-ext
-│   ├── img/               # optimised logo, headshots, favicon
+│   ├── img/               # logo variants, headshots, favicon
 │   └── js/
 │       └── main.js        # nav, scroll reveal, form handling
 └── Parnet2Impact Assets/  # original source files as supplied
@@ -69,6 +69,27 @@ Lapse risk is also the one amber card, matching what amber means everywhere else
 
 The donor-intelligence dashboard now lives on `tool.html`, where a product view belongs,
 with a caption stating that the figures are illustrative.
+
+## Logo variants
+
+The 2026 mark is teal + orange + navy, supplied as a single 1536×1024 PNG on a white
+background. `assets/img/` holds the derivatives the pages actually use; all of them are
+generated from `Parnet2Impact Assets/logo.png` and can be regenerated from it.
+
+| File | Where it is used |
+| --- | --- |
+| `logo-mark.webp` | Header. Cropped above the "Data-Driven Fundraising" line, which is illegible at header size |
+| `logo-light-*.webp` | Anything on navy — footer, closing CTA band. Neutral dark pixels lifted to near-white so the wordmark reads; teal and orange untouched |
+| `logo-light-hero.webp` | Hero lockup at 2× |
+| `logo.png` / `logo-800.webp` | Flat white-background versions for `og:image` and the apple-touch-icon |
+
+The white background was keyed out to alpha by chroma, not by a flat threshold: the navy
+wordmark has *high relative* saturation because its channel values are all small, so a
+naive saturation test classifies it as brand colour and leaves it dark. Chroma
+(`max − min`) separates it correctly from the teal and orange.
+
+On the homepage the logo now appears in the header, the hero, the closing CTA band and the
+footer.
 
 ## Design system
 

@@ -289,11 +289,11 @@ strong { font-weight: 650; }
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  min-height: 5rem;
+  min-height: 5.75rem;
 }
 
 .brand { margin-right: auto; display: inline-flex; align-items: center; }
-.brand img { width: 172px; height: auto; }
+.brand img { width: auto; height: clamp(46px, 3.4vw, 60px); }
 
 .nav-links {
   display: flex;
@@ -357,12 +357,12 @@ strong { font-weight: 650; }
 .nav-toggle[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
 
 @media (max-width: 900px) {
-  .brand img { width: 148px; }
+  .brand img { height: 42px; }
   .nav-toggle { display: inline-flex; }
   .nav-cta { display: none; }
   .nav-links {
     position: fixed;
-    inset: 5rem 0 auto;
+    inset: 5.75rem 0 auto;
     flex-direction: column;
     align-items: stretch;
     gap: 0.15rem;
@@ -520,14 +520,14 @@ strong { font-weight: 650; }
 
 .signal-chip {
   align-self: flex-start;
-  padding: 0.16rem 0.55rem;
-  margin-bottom: 0.6rem;
+  padding: 0.3rem 0.8rem;
+  margin-bottom: 0.75rem;
   border-radius: 999px;
   background: var(--accent-soft);
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.07em;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--accent);
 }
@@ -1114,10 +1114,8 @@ strong { font-weight: 650; }
 }
 .footer-brand img {
   width: 190px;
+  height: auto;
   margin-bottom: 1.1rem;
-  background: #fff;
-  padding: 0.6rem 0.8rem;
-  border-radius: 12px;
 }
 .footer-brand p { max-width: 24rem; color: rgba(226, 232, 240, 0.68); }
 .site-footer h4 {
@@ -1578,3 +1576,40 @@ strong { font-weight: 650; }
   font-size: 0.84rem;
   color: var(--slate-500);
 }
+
+/* --------------------------------------------------------------------------
+   Logo placements beyond the header and footer
+   -------------------------------------------------------------------------- */
+
+/* Hero lockup — replaces the eyebrow above the headline */
+.hero-logo {
+  width: clamp(13rem, 10rem + 9vw, 18rem);
+  height: auto;
+  margin: 0 auto clamp(1.25rem, 1rem + 1vw, 2rem);
+}
+
+/* Closing CTA band */
+.cta-logo {
+  width: clamp(9rem, 7rem + 6vw, 12.5rem);
+  height: auto;
+  margin: 0 auto clamp(1.25rem, 1rem + 1vw, 1.85rem);
+  opacity: 0.92;
+}
+
+/* --------------------------------------------------------------------------
+   Emphasised section lede
+   One step up from body copy and set in the display face, for the line that
+   carries the positioning rather than merely introducing the section.
+   -------------------------------------------------------------------------- */
+
+.section-head .section-head__lead {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1rem + 0.8vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  max-width: 44rem;
+  margin-inline: auto;
+}
+.section--ink .section-head .section-head__lead { color: #fff; }
