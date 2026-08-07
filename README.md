@@ -22,14 +22,24 @@ approved copy in that brief.
 
 ## Pages
 
-| File | Purpose |
-| --- | --- |
-| `index.html` | Dark hero with the logo lockup and the four signals, the goldmine section, solution grid, data-as-currency, partners, CTA |
-| `tool.html` | The Data Tool — scoring, prospect discovery, the dashboard view, how it fits your CRM |
-| `consulting.html` | Consulting & Strategy — campaigns, alignment, pipeline growth |
-| `about.html` | Tracey & David, why the partnership, track record, FAQ |
-| `contact.html` | 15-minute data health check request form |
-| `404.html` | Not-found page |
+| File | Public URL | Purpose |
+| --- | --- | --- |
+| `index.html` | `/` | Dark hero with the logo lockup and the four signals, the goldmine section, solution grid, data-as-currency, partners, CTA |
+| `tool.html` | `/tool` | The Data Tool — scoring, prospect discovery, the dashboard view, how it fits your CRM |
+| `consulting.html` | `/consulting` | Consulting & Strategy — campaigns, alignment, pipeline growth |
+| `about.html` | `/about` | Tracey & David, why the partnership, track record, FAQ |
+| `contact.html` | `/contact` | 15-minute data health check request form |
+| `404.html` | — | Not-found page |
+
+**Clean URLs.** Every internal link, canonical and sitemap entry uses the extensionless
+form — `/tool`, never `/tool.html`, and `/` rather than `/index.html`. GitHub Pages resolves
+`/tool` to `tool.html` on its own, so this needs no rewrite rules and no build step. The
+`.html` URLs still resolve for anyone holding an old link; the canonical on each page points
+at the clean form so only one version is indexed.
+
+Because the links are now root-absolute, the site expects to be served from a domain root.
+That is what `partner2impact.com` gives it. Deploying to a subdirectory again would mean
+reverting the links to relative form.
 
 The previous `services.html` and `clients.html` are gone. The client list survives, trimmed
 to nonprofit-sector organizations, as a track-record block inside `about.html`.
@@ -135,8 +145,10 @@ Nothing to compile. Three routes, in order of preference:
    HTML/CSS, so the site would have to be rebuilt inside its block editor and would lose
    this layout.
 
-`404.html` uses absolute asset paths (`/assets/…`) so it works from any URL depth; the five
-main pages use relative paths so they survive a subdirectory deploy.
+`404.html` uses absolute asset paths (`/assets/…`) so it works from any URL depth. The five
+main pages keep relative asset paths, which resolve correctly under the extensionless URLs
+because none of them carries a trailing slash — `/tool` has `/` as its base, so
+`assets/css/styles.css` still lands on `/assets/css/styles.css`.
 
 ### Redirects from the 2020 site
 
@@ -146,10 +158,10 @@ every search result led to the 404 page. Five stub files cover them:
 | Old URL | Goes to |
 | --- | --- |
 | `/home` | `/` |
-| `/about-1` | `/about.html` |
-| `/services` | `/consulting.html` |
-| `/client-list` | `/about.html` |
-| `/contact-us` | `/contact.html` |
+| `/about-1` | `/about` |
+| `/services` | `/consulting` |
+| `/client-list` | `/about` |
+| `/contact-us` | `/contact` |
 
 Static hosting cannot issue a real 301, so each stub combines `<meta http-equiv="refresh">`,
 a JavaScript `location.replace` that preserves any `#hash`, a `canonical` pointing at the

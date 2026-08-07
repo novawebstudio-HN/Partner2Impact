@@ -6,22 +6,22 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://partner2impact.com/tool.html</loc>
+    <loc>https://partner2impact.com/tool</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://partner2impact.com/consulting.html</loc>
+    <loc>https://partner2impact.com/consulting</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://partner2impact.com/about.html</loc>
+    <loc>https://partner2impact.com/about</loc>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://partner2impact.com/contact.html</loc>
+    <loc>https://partner2impact.com/contact</loc>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
