@@ -49,7 +49,7 @@ to nonprofit-sector organizations, as a track-record block inside `about.html`.
 ```
 .
 ├── index.html  tool.html  consulting.html  about.html  contact.html  404.html
-├── robots.txt  sitemap.xml
+├── robots.txt  sitemap.xml  favicon.ico  site.webmanifest
 ├── assets/
 │   ├── css/
 │   │   ├── fonts.css      # @font-face for the self-hosted webfonts
@@ -91,7 +91,7 @@ generated from `Parnet2Impact Assets/logo.png` and can be regenerated from it.
 | `logo-mark.webp` | Header. Cropped above the "Data-Driven Fundraising" line, which is illegible at header size |
 | `logo-light-*.webp` | Anything on navy — footer, closing CTA band. Neutral dark pixels lifted to near-white so the wordmark reads; teal and orange untouched |
 | `logo-light-hero.webp` | Hero lockup at 2× |
-| `logo.png` / `logo-800.webp` | Flat white-background versions for `og:image` and the apple-touch-icon |
+| `logo.png` / `logo-800.webp` | Flat white-background versions for `og:image` |
 
 The white background was keyed out to alpha by chroma, not by a flat threshold: the navy
 wordmark has *high relative* saturation because its channel values are all small, so a
@@ -100,6 +100,30 @@ naive saturation test classifies it as brand colour and leaves it dark. Chroma
 
 On the homepage the logo now appears in the header, the hero, the closing CTA band and the
 footer.
+
+## Favicon and app icons
+
+The full lockup is unusable at favicon size — three words and a tagline collapse into a
+smudge. The icon reduces the mark to its dominant element instead: the four ascending bars,
+three teal and the fourth orange, on the site's navy. Same shape, same colours, legible at
+16px.
+
+The arrow that sweeps over the bars in the logo was tried and dropped. At 16px its stroke
+lands under one pixel and the head turns the top-right corner to mush; the bars alone read
+cleanly at every size.
+
+| File | Purpose |
+| --- | --- |
+| `favicon.ico` (repo root) | 16 / 32 / 48 in one file. Browsers and Google request `/favicon.ico` by default whether or not a `<link>` says so — without it the tab falls back to a grey letter tile |
+| `assets/img/favicon.svg` | Vector, used by browsers that prefer it. Crisp on high-DPI and at any zoom |
+| `assets/img/icon-180.png` | `apple-touch-icon`, square-cornered because iOS applies its own rounding |
+| `assets/img/icon-192/512.png` | Android home screen, via `site.webmanifest` |
+
+Colours are sampled from the supplied logo (teal `#01918b`, orange `#fc7902`) and snapped to
+the site's `--teal-bright` / `--amber` neighbours so the icon matches the rest of the UI.
+
+Regenerate all five from the geometry in one pass — the shapes are defined in a 64-unit
+space and drawn at 8× before downsampling, since Pillow's primitives are not antialiased.
 
 ## Design system
 
