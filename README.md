@@ -117,14 +117,24 @@ cleanly at every size.
 | --- | --- |
 | `favicon.ico` (repo root) | 16 / 32 / 48 in one file. Browsers and Google request `/favicon.ico` by default whether or not a `<link>` says so — without it the tab falls back to a grey letter tile |
 | `assets/img/favicon.svg` | Vector, used by browsers that prefer it. Crisp on high-DPI and at any zoom |
+| `assets/img/icon-48.png`, `icon-96.png` | Google Search. Its favicon crawler wants a raster square whose side is a multiple of 48px |
 | `assets/img/icon-180.png` | `apple-touch-icon`, square-cornered because iOS applies its own rounding |
 | `assets/img/icon-192/512.png` | Android home screen, via `site.webmanifest` |
+
+The `sizes` attribute on the `.ico` lists all three resolutions it actually contains
+(`48x48 32x32 16x16`). It previously claimed `32x32` alone, which told Google's crawler the
+site's best raster favicon was below the size it wants — a self-inflicted downgrade, since
+the 48px frame was in the file the whole time.
+
+A blank or generic favicon in a search result is usually just crawl timing: Google fetches
+favicons on its own schedule, separate from page indexing, and requesting re-indexing in
+Search Console does not force a favicon refresh.
 
 Colours are sampled from the supplied logo (teal `#01918b`, orange `#fc7902`) and snapped to
 the site's `--teal-bright` / `--amber` neighbours so the icon matches the rest of the UI.
 
 Regenerate all five from the geometry in one pass — the shapes are defined in a 64-unit
-space and drawn at 8× before downsampling, since Pillow's primitives are not antialiased.
+space and drawn at 8× before downsampling (all seven sizes come from one pass), since Pillow's primitives are not antialiased.
 
 ## Design system
 
