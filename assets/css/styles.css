@@ -514,7 +514,7 @@ strong { font-weight: 650; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 1.1rem;
   margin-bottom: 0.9rem;
 }
 
@@ -1484,12 +1484,15 @@ strong { font-weight: 650; }
   border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: var(--radius);
 }
-/* Icon sits on the heading's line rather than on its own line above it.
-   The card keeps its original height — only the icon moved. */
+/* Icon sits on the heading's line rather than on its own line above it, and at
+   the right edge — same arrangement as the hero signal cards, so every card on
+   the site that pairs an icon with a heading reads the same way. The gap floor
+   keeps the icon off the word when a heading runs long. */
 .flow-head {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  justify-content: space-between;
+  gap: 1.25rem;
   margin-bottom: 0.75rem;
 }
 .flow-step .icon {
