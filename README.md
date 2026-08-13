@@ -242,6 +242,17 @@ in the navigation and CTA bands.
 - SEO: per-page titles and descriptions, canonicals, Open Graph, `ProfessionalService`
   structured data, `sitemap.xml`, `robots.txt`
 
+## What the site must not claim
+
+**No "real time".** David confirmed the tool cannot do real-time updates, so advertising it
+would be selling something that does not exist. Every instance was removed — the homepage
+solution list, the `tool.html` capability section and its meta descriptions, the goldmine
+paragraph and David's line in the about page. The homepage item that read *"Real-time donor
+updates"* is now *"Hidden major donors"*.
+
+Keep this in mind for any new copy: the tool re-reads records against fresh signals on a
+cadence, it does not stream them live.
+
 ## Open items before launch
 
 These need Tracey's confirmation — they are claims or assets the site presents as fact:
@@ -256,8 +267,10 @@ These need Tracey's confirmation — they are claims or assets the site presents
    mentioned anywhere — confirm that is intended.
 4. **The tool has no product name** on the site. If it gets one, it should replace the
    generic "the tool" references.
-5. **The logo is the existing one.** The brief calls for a redesigned mark in the new
-   palette; the current navy-and-maroon logo is a placeholder until that exists.
+5. **David's headshot is the old one.** Tracey supplied a newer photo, but only in black
+   and white, and asked for colour. It needs the original colour file from David — a
+   black-and-white photo cannot be recoloured back to the truth, only invented. Until that
+   arrives the site keeps the existing colour headshot.
 6. **Contact email** — `Hello@Partner2Impact.com`, carried from the old site. Confirm it is
    still monitored.
 7. **CRM list** on the homepage and in the form dropdown is a reasonable default set. Trim or
