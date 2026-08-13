@@ -214,17 +214,19 @@ repository setting change, not a code change.
 The form works with no backend: on submit it opens the visitor's mail client with the
 message pre-filled and addressed to `Hello@Partner2Impact.com`.
 
-To deliver submissions somewhere instead, set the endpoint in `assets/js/main.js`:
+**That fallback is no longer what runs.** `FORM_ENDPOINT` in `assets/js/main.js` now points
+at the deployed Apps Script web app, so submissions go to the sheet. The mailto path stays in
+place as the behaviour if the constant is ever emptied.
 
-```js
-var FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfy…/exec';
-```
+### Google Sheet via Apps Script (live)
 
-### Google Sheet via Apps Script (the chosen route)
+`google-apps-script/Code.gs` is the backend. Paste it into the sheet's Apps Script editor and
+deploy it as a web app — the file's header comment carries the click-by-click steps. It
+appends one row per submission and emails everyone in `NOTIFY_EMAILS`, currently
+`eduardo@generedge.com` and `tracey@generedge.com`.
 
-`google-apps-script/Code.gs` is the backend. Paste it into the sheet's Apps Script editor
-and deploy it as a web app — the file's header comment carries the click-by-click steps. It
-appends one row per submission and emails `Hello@Partner2Impact.com`.
+`Hello@Partner2Impact.com` is still the address shown to visitors on the site; it is simply
+not on the notification list.
 
 The sheet's header row is written automatically on the first submission, in this order:
 
@@ -304,7 +306,8 @@ These need Tracey's confirmation — they are claims or assets the site presents
    and white, and asked for colour. It needs the original colour file from David — a
    black-and-white photo cannot be recoloured back to the truth, only invented. Until that
    arrives the site keeps the existing colour headshot.
-6. **Contact email** — `Hello@Partner2Impact.com`, carried from the old site. Confirm it is
-   still monitored.
+6. **Contact email** — `Hello@Partner2Impact.com` is what the site shows visitors, carried
+   from the old site. Confirm it is still monitored. Form notifications go to
+   `NOTIFY_EMAILS` in `Code.gs` instead, not to this address.
 7. **CRM list** on the homepage and in the form dropdown is a reasonable default set. Trim or
    extend it to the systems the tool actually integrates with.
