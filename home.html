@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <title>Redirecting to Home | Partner2Impact</title>
-<meta name="robots" content="noindex">
 <link rel="canonical" href="https://partner2impact.com/">
 <meta http-equiv="refresh" content="0; url=/">
 <script>window.location.replace("/" + window.location.hash);</script>
@@ -15,9 +14,12 @@
 </style>
 </head>
 <body>
-  <!-- This page only exists so the 2020 site's indexed URLs keep working.
-       It carries noindex plus a canonical, so search engines fold it into
-       the destination rather than indexing the stub. -->
+  <!-- This page only exists so the previous site's indexed URLs keep working.
+       An instant meta refresh reads as a permanent redirect, and the canonical
+       tells search engines to fold this URL into the destination. There is
+       deliberately no noindex: it contradicts the canonical, and Google
+       resolves that by dropping the page instead of transferring its
+       accumulated ranking signals to the new one. -->
   <p>This page has moved. Taking you to <a href="/">Home</a>&hellip;</p>
 </body>
 </html>
