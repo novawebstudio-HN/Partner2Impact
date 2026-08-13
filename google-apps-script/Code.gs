@@ -29,8 +29,11 @@
  * Version: New version. Saving alone does not update the live web app.
  */
 
-/** Email address that gets notified. Leave empty to disable notifications. */
-var NOTIFY_EMAIL = 'Hello@Partner2Impact.com';
+/** Who gets told about a new submission. Empty list disables notifications. */
+var NOTIFY_EMAILS = [
+  'eduardo@generedge.com',
+  'tracey@generedge.com'
+];
 
 /** Tab that receives the rows. Created automatically if it does not exist. */
 var SHEET_NAME = 'Leads';
@@ -143,7 +146,7 @@ function buildRow(data) {
 }
 
 function notify(data) {
-  if (!NOTIFY_EMAIL) return;
+  if (!NOTIFY_EMAILS || !NOTIFY_EMAILS.length) return;
 
   var who = data.organization || data.name;
   var body = COLUMNS
@@ -154,7 +157,9 @@ function notify(data) {
   // A failed notification must not lose the row that was already saved.
   try {
     MailApp.sendEmail({
-      to: NOTIFY_EMAIL,
+      // Everyone on the list is a recipient, so hitting Reply answers the
+      // visitor rather than the other people who were notified.
+      to: NOTIFY_EMAILS.join(','),
       replyTo: data.email,
       subject: 'New data health check request — ' + who,
       body: body + '\n\n— partner2impact.com'
