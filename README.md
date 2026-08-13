@@ -225,8 +225,13 @@ deploy it as a web app — the file's header comment carries the click-by-click 
 appends one row per submission and emails everyone in `NOTIFY_EMAILS`, currently
 `eduardo@generedge.com` and `tracey@generedge.com`.
 
-`Hello@Partner2Impact.com` is still the address shown to visitors on the site; it is simply
-not on the notification list.
+The sheet and the script both live in the `eduardo@generedge.com` Google account.
+`Hello@Partner2Impact.com` is still the address shown to visitors on the site, but it is
+deliberately **not** on the notification list.
+
+Moving the sheet between Google accounts mints a **new** `/exec` URL — the old one keeps
+answering but writes to the old copy. `FORM_ENDPOINT` in `assets/js/main.js` has to be
+updated to match, or submissions silently land in the wrong spreadsheet.
 
 The sheet's header row is written automatically on the first submission, in this order:
 
