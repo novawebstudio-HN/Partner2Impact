@@ -118,7 +118,7 @@
      The body is sent as FormData on purpose — multipart/form-data is a
      CORS-safelisted content type, so the browser skips the preflight OPTIONS
      request that Apps Script cannot answer. */
-  var FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzjp9fbUZBm-MEkl3FHhak_IWpfGbGgicutCgrw4OUWlP06gwXxR-DBxD6Ap22Ul1VY/exec';
+  var FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyW-bvysipZQXIWDCLEsrhPaJxZWtiWePHyM3Vi7ABIZubJU7aTAzy6b6TL2ok14ATBvQ/exec';
   var CONTACT_EMAIL = 'Hello@Partner2Impact.com';
 
   var form = document.querySelector('[data-contact-form]');
