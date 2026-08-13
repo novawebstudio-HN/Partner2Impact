@@ -109,9 +109,15 @@
 
   /* Where the form posts.
      - Leave empty to use the built-in mailto fallback (works with no backend).
-     - To use a hosted form service, paste the endpoint here, e.g.
-         var FORM_ENDPOINT = 'https://formspree.io/f/xxxxxxx';
-       Any service that accepts a JSON or FormData POST will work. */
+     - Google Apps Script: deploy google-apps-script/Code.gs as a web app and
+       paste its /exec URL here. Submissions land in the sheet and Tracey and
+       David get an email.
+         var FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfy…/exec';
+     - Any hosted form service works too (Formspree, Basin, Netlify Forms):
+       paste its endpoint instead.
+     The body is sent as FormData on purpose — multipart/form-data is a
+     CORS-safelisted content type, so the browser skips the preflight OPTIONS
+     request that Apps Script cannot answer. */
   var FORM_ENDPOINT = '';
   var CONTACT_EMAIL = 'Hello@Partner2Impact.com';
 
@@ -186,10 +192,20 @@
       var originalLabel = submitBtn ? submitBtn.textContent : '';
 
       if (FORM_ENDPOINT) {
+        /* Which page the enquiry came from, so the sheet shows the context. */
+        data.append('page', window.location.href);
+
         if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
         fetch(FORM_ENDPOINT, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
           .then(function (res) {
             if (!res.ok) throw new Error('Request failed');
+            /* Apps Script always answers 200 and reports failure in the body,
+               so the payload decides. Services that signal through the status
+               code alone send no JSON — treat that as success. */
+            return res.json().catch(function () { return null; });
+          })
+          .then(function (payload) {
+            if (payload && payload.result === 'error') throw new Error(payload.message);
             form.reset();
             setStatus('Thank you — your message is on its way. We reply within one business day.', 'success');
           })

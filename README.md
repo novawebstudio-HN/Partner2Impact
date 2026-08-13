@@ -50,6 +50,7 @@ to nonprofit-sector organizations, as a track-record block inside `about.html`.
 .
 ├── index.html  tool.html  consulting.html  about.html  contact.html  404.html
 ├── robots.txt  sitemap.xml  favicon.ico  site.webmanifest
+├── google-apps-script/    # contact-form backend for Google Sheets
 ├── assets/
 │   ├── css/
 │   │   ├── fonts.css      # @font-face for the self-hosted webfonts
@@ -213,16 +214,48 @@ repository setting change, not a code change.
 The form works with no backend: on submit it opens the visitor's mail client with the
 message pre-filled and addressed to `Hello@Partner2Impact.com`.
 
-To deliver submissions to an inbox or CRM instead, set the endpoint in `assets/js/main.js`:
+To deliver submissions somewhere instead, set the endpoint in `assets/js/main.js`:
 
 ```js
-var FORM_ENDPOINT = 'https://formspree.io/f/xxxxxxx';
+var FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfy…/exec';
 ```
+
+### Google Sheet via Apps Script (the chosen route)
+
+`google-apps-script/Code.gs` is the backend. Paste it into the sheet's Apps Script editor
+and deploy it as a web app — the file's header comment carries the click-by-click steps. It
+appends one row per submission and emails `Hello@Partner2Impact.com`.
+
+The sheet's header row is written automatically on the first submission, in this order:
+
+| Timestamp | Name | Organization | Email | Phone | CRM | Primary challenge | Message | Consent | Source page |
+
+Details worth knowing:
+
+- **The body is sent as `FormData`, deliberately.** `multipart/form-data` is a
+  CORS-safelisted content type, so the browser skips the preflight `OPTIONS` request. Apps
+  Script cannot answer `OPTIONS`, so sending JSON instead would fail before it ever reached
+  the script.
+- **Apps Script always answers HTTP 200**, even on failure, so `res.ok` proves nothing. The
+  outcome travels in the JSON body and the site reads `result` to decide what to show. A
+  service that signals through the status code alone and returns no body still works — a
+  missing body is treated as success.
+- **A leading `=`, `+`, `-` or `@` in visitor text is prefixed with an apostrophe** before it
+  reaches the sheet, so a pasted value cannot be evaluated as a formula.
+- **Writes are wrapped in a `LockService` lock**, so two submissions landing at once cannot
+  race for the same row.
+- **A failed notification email never loses the row.** The send is caught separately, after
+  the append has already committed.
+
+Redeploying is the step people miss: after editing `Code.gs`, use *Deploy → Manage
+deployments → edit → Version: New version*. Saving alone does not update the live web app.
+
+### Other services
 
 Any service accepting a `FormData` POST works — Formspree, Basin, Netlify Forms, HubSpot, or
 a custom handler. Client-side validation, the honeypot spam trap, and the success and error
 states are already in place. The form posts `name`, `organization`, `email`, `phone`, `crm`,
-`challenge` and `message`.
+`challenge`, `message`, `consent` and `page`.
 
 For live booking, a Calendly (or similar) link can replace the `contact.html#audit` targets
 in the navigation and CTA bands.
