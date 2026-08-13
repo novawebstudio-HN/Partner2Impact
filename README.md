@@ -133,8 +133,8 @@ Search Console does not force a favicon refresh.
 Colours are sampled from the supplied logo (teal `#01918b`, orange `#fc7902`) and snapped to
 the site's `--teal-bright` / `--amber` neighbours so the icon matches the rest of the UI.
 
-Regenerate all five from the geometry in one pass — the shapes are defined in a 64-unit
-space and drawn at 8× before downsampling (all seven sizes come from one pass), since Pillow's primitives are not antialiased.
+Every size is generated from the same 64-unit geometry in one pass, drawn at 8× before
+downsampling since Pillow's primitives are not antialiased.
 
 ## Design system
 
@@ -197,11 +197,20 @@ every search result led to the 404 page. Five stub files cover them:
 | `/services` | `/consulting` |
 | `/client-list` | `/about` |
 | `/contact-us` | `/contact` |
+| `/bio-page` | `/about` |
 
-Static hosting cannot issue a real 301, so each stub combines `<meta http-equiv="refresh">`,
-a JavaScript `location.replace` that preserves any `#hash`, a `canonical` pointing at the
-destination, and `noindex` so the stub itself never enters the index. Search engines treat
-the canonical as the consolidation signal and fold the old URL into the new one.
+Static hosting cannot issue a real 301, so each stub combines `<meta http-equiv="refresh">`
+at zero delay — which Google reads as a permanent redirect — a JavaScript `location.replace`
+that preserves any `#hash`, and a `canonical` pointing at the destination.
+
+**No `noindex`.** The stubs carried one at first, which was wrong: `noindex` and `canonical`
+are contradictory instructions, and Google resolves the conflict by honouring `noindex` and
+dropping the page. That discards the old URL's accumulated ranking signals instead of passing
+them to the new page, which is the whole point of the redirect. The canonical alone is the
+consolidation signal, and the instant refresh backs it up.
+
+The stub list came from Search Console's *Indexed pages* report rather than from guesswork —
+`/bio-page` was indexed and returning 404 with nothing pointing at it.
 
 They are deliberately absent from `sitemap.xml` — a sitemap should list destinations, not
 redirects.
