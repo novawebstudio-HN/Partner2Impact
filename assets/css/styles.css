@@ -1125,6 +1125,7 @@ strong { font-weight: 650; }
   width: 190px;
   height: auto;
   margin-bottom: 1.1rem;
+  filter: brightness(0) invert(1);
 }
 .footer-brand p { max-width: 24rem; color: rgba(226, 232, 240, 0.68); }
 .site-footer h4 {
@@ -1612,6 +1613,7 @@ strong { font-weight: 650; }
   width: clamp(13rem, 10rem + 9vw, 18rem);
   height: auto;
   margin: 0 auto clamp(1.25rem, 1rem + 1vw, 2rem);
+  filter: brightness(0) invert(1);
 }
 
 /* Closing CTA band */
@@ -1620,6 +1622,7 @@ strong { font-weight: 650; }
   height: auto;
   margin: 0 auto clamp(1.25rem, 1rem + 1vw, 1.85rem);
   opacity: 0.92;
+  filter: brightness(0) invert(1);
 }
 
 /* --------------------------------------------------------------------------
