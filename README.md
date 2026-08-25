@@ -56,7 +56,7 @@ to nonprofit-sector organizations, as a track-record block inside `about.html`.
 │   │   ├── fonts.css      # @font-face for the self-hosted webfonts
 │   │   └── styles.css     # design system + all component styles
 │   ├── fonts/             # Plus Jakarta Sans + Inter, woff2, latin & latin-ext
-│   ├── img/               # logo variants, headshots, favicon
+│   ├── img/               # logo SVGs, app icons, headshots
 │   └── js/
 │       └── main.js        # nav, scroll reveal, form handling
 └── Parnet2Impact Assets/  # original source files as supplied
@@ -81,79 +81,84 @@ Lapse risk is also the one amber card, matching what amber means everywhere else
 The donor-intelligence dashboard now lives on `tool.html`, where a product view belongs,
 with a caption stating that the figures are illustrative.
 
-## Logo variants
+## Logo
 
-The 2026 mark is teal + orange + navy, supplied as a single 1536×1024 PNG on a white
-background. `assets/img/` holds the derivatives the pages actually use; all of them are
-generated from `Parnet2Impact Assets/logo.png` and can be regenerated from it.
+The 2026 mark is supplied as four SVGs, one per background. Using the wrong one is the
+mistake worth guarding against: the light version's wordmark is `#061E4F`, which on the navy
+hero is very nearly invisible.
 
-| File | Where it is used |
+| File | Where it goes |
 | --- | --- |
-| `logo-mark.webp` | Header. Cropped above the "Data-Driven Fundraising" line, which is illegible at header size |
-| `logo-light-*.webp` | Anything on navy — footer, closing CTA band. Neutral dark pixels lifted to near-white so the wordmark reads; teal and orange untouched |
-| `logo-light-hero.webp` | Hero lockup at 2× |
-| `logo.png` / `logo-800.webp` | Flat white-background versions for `og:image` |
+| `logo.svg` | Header and the 404 page — anything on white or `--sand` |
+| `logo-reverse.svg` | Hero, closing CTA band, footer — anything on navy |
+| `logo-mono-white.svg`, `logo-mono-navy.svg` | Single-colour fallbacks. Not used on the site; kept for print and third-party placements |
 
-The white background was keyed out to alpha by chroma, not by a flat threshold: the navy
-wordmark has *high relative* saturation because its channel values are all small, so a
-naive saturation test classifies it as brand colour and leaves it dark. Chroma
-(`max − min`) separates it correctly from the teal and orange.
+`logo-reverse.svg` is the right choice on dark, not the plain white monogram: it keeps the
+orange `2` and the teal `IMPACT`, which are what make the mark recognisable. Rendered
+side by side on the real hero gradient, the mono-white version reads cleanly but generically.
 
-On the homepage the logo now appears in the header, the hero, the closing CTA band and the
-footer.
+Rasters are only generated where a vector cannot be used:
+
+| File | Why raster |
+| --- | --- |
+| `og-image.jpg` | Social cards do not render SVG. 1200×630, logo on the hero gradient |
+| `logo-1200.png` | `schema.org` `logo` expects a raster URL |
+
+The lockup is 2.90:1, much wider than the 1.83:1 mark it replaced, so every slot was resized:
+the header is driven by height (the nav bar constrains it), and the hero, CTA and footer by
+width.
 
 ## Favicon and app icons
 
-The full lockup is unusable at favicon size — three words and a tagline collapse into a
-smudge. The icon reduces the mark to its dominant element instead: the four ascending bars,
-three teal and the fourth orange, on the site's navy. Same shape, same colours, legible at
-16px.
+The full lockup is unusable at favicon size. The icon uses the **P2 monogram** alone — the
+rounded `P` enclosing the orange `2` — on the brand navy.
 
-The arrow that sweeps over the bars in the logo was tried and dropped. At 16px its stroke
-lands under one pixel and the head turns the top-right corner to mush; the bars alone read
-cleanly at every size.
+Isolating it took some care. The monogram is not a separate path: the large `P` doubles as
+the `P` of "PARTNER", and the three paths in the file (`wordmark`, `impact`, `accent`) each
+span the whole lockup. So the mark is cut by `viewBox` plus a `clipPath`, with the boundary
+measured rather than guessed — rendering the `wordmark` path alone and finding the first
+column gap puts the split at x=485, where "ARTNER" begins. Measuring only the columns that
+reach the top of the logo gives x=453 and slices the `P`'s shoulder off.
 
 | File | Purpose |
 | --- | --- |
-| `favicon.ico` (repo root) | 16 / 32 / 48 in one file. Browsers and Google request `/favicon.ico` by default whether or not a `<link>` says so — without it the tab falls back to a grey letter tile |
-| `assets/img/favicon.svg` | Vector, used by browsers that prefer it. Crisp on high-DPI and at any zoom |
-| `assets/img/icon-48.png`, `icon-96.png` | Google Search. Its favicon crawler wants a raster square whose side is a multiple of 48px |
+| `favicon.ico` (repo root) | 16 / 32 / 48 in one file — the path browsers and Google request by default |
+| `assets/img/favicon.svg` | Vector, the monogram on a rounded navy tile |
+| `assets/img/icon-48.png`, `icon-96.png` | Google Search wants a raster square whose side is a multiple of 48px |
 | `assets/img/icon-180.png` | `apple-touch-icon`, square-cornered because iOS applies its own rounding |
-| `assets/img/icon-192/512.png` | Android home screen, via `site.webmanifest` |
+| `assets/img/icon-192.png`, `icon-512.png` | Android home screen, via `site.webmanifest` |
 
-The `sizes` attribute on the `.ico` lists all three resolutions it actually contains
-(`48x48 32x32 16x16`). It previously claimed `32x32` alone, which told Google's crawler the
-site's best raster favicon was below the size it wants — a self-inflicted downgrade, since
-the 48px frame was in the file the whole time.
-
-A blank or generic favicon in a search result is usually just crawl timing: Google fetches
-favicons on its own schedule, separate from page indexing, and requesting re-indexing in
-Search Console does not force a favicon refresh.
-
-Colours are sampled from the supplied logo (teal `#01918b`, orange `#fc7902`) and snapped to
-the site's `--teal-bright` / `--amber` neighbours so the icon matches the rest of the UI.
-
-Every size is generated from the same 64-unit geometry in one pass, drawn at 8× before
-downsampling since Pillow's primitives are not antialiased.
+Padding inside the tile is 10%. More air looks better at 96px and turns to mush at 16px; the
+mark's strokes are thin, so it needs the area.
 
 ## Design system
 
-Palette from the brand brief, with one deliberate adjustment:
+Every colour is taken from the 2026 logo rather than chosen alongside it.
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--navy` / `--navy-900` | `#0f172a` / `#020617` | Trust, authority — dark sections and text |
-| `--teal-bright` | `#0d9488` | Brief's data-science colour — **graphics, fills and borders only** |
-| `--teal` / `--teal-600` | `#0f766e` / `#115e59` | Same hue, darkened — used wherever text sits on or in it |
-| `--amber-bright` | `#d97706` | Brief's "currency" accent — **graphics only** |
-| `--amber` / `--amber-600` | `#b45309` / `#92400e` | Darkened — primary CTA buttons |
-| `--sand` | `#f8fafc` | Soft slate backgrounds |
+| `--navy` / `--navy-900` / `--navy-700` | `#061e4f` / `#030f2b` / `#0d2f6b` | The logo's navy. Dark sections, headings, body text |
+| `--teal` / `--teal-600` | `#096d91` / `#075670` | The logo's teal, used as-is. Links, buttons, eyebrows |
+| `--teal-bright` | `#0e86b0` | Graphics, fills and borders only |
+| `--teal-400` | `#5fb3ce` | On dark backgrounds |
+| `--amber` / `--amber-600` | `#cf4703` / `#b63e03` | The logo's orange darkened. Primary CTA buttons |
+| `--amber-bright` | `#fc6418` | The logo's orange. Graphics only |
+| `--amber-400` | `#fa8a41` | On dark backgrounds |
 
-**Why the split:** the brief's `#0d9488` and `#d97706` measure 3.74:1 and 3.19:1 against
-white, below the 4.5:1 WCAG AA threshold for text. White button labels on those backgrounds
-would be hard to read. The bright shades are kept for anything purely visual; text and
-button surfaces use the darker pair. Visually the brand reads the same; every text pairing
-on the site now measures 5:1 or better.
+**Two deliberate adjustments, both for contrast.**
+
+The logo's teal `#096D91` needed none — it measures 5.82:1 with white text and is used
+exactly as supplied. The orange `#FC6418` measures 3.01:1, well under the 4.5:1 threshold, so
+button surfaces use a darkened `#cf4703` at 4.61:1 while graphics keep the true colour.
+
+The dark-background pair was lifted a step (`#48A8C7` → `#5fb3ce`, `#FA7E2D` → `#fa8a41`).
+The new navy is lighter than the slate it replaced, so accents that cleared AA against the
+old background no longer did against card surfaces sitting on the new one.
+
+Contrast was verified by sampling **rendered pixels**, not by reasoning about the cascade: the
+page is screenshotted a second time with all text set to `transparent`, giving the true
+backdrop behind every run of text including multi-layer gradients and translucent card fills.
+Every text pairing on the site passes AA; the tightest is 4.53:1.
 
 Typography is Plus Jakarta Sans (display) and Inter (body), both named in the brief and both
 self-hosted.
@@ -295,8 +300,9 @@ in the navigation and CTA bands.
   errors, `aria-current` nav, WCAG AA text contrast throughout
 - The hero and the tool dashboard are built in CSS and inline SVG — no image requests, and
   the dashboard carries an `aria-label` describing it for screen readers
-- Text contrast on the dark hero was measured against the darkest gradient stop, not the
-  average, so every pairing holds at the worst point (lowest is 5.25:1)
+- Text contrast is verified against rendered pixels, sampled from a second screenshot taken
+  with all text transparent, so gradients and translucent fills are measured as they paint
+  (lowest pairing on the site is 4.53:1)
 - `prefers-reduced-motion` disables all animation
 - SEO: per-page titles and descriptions, canonicals, Open Graph, `ProfessionalService`
   structured data, `sitemap.xml`, `robots.txt`
