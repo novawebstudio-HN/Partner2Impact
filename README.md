@@ -27,6 +27,7 @@ approved copy in that brief.
 | `index.html` | `/` | Dark hero with the logo lockup and the four signals, the goldmine section, solution grid, data-as-currency, partners, CTA |
 | `tool.html` | `/tool` | The Data Tool — scoring, prospect discovery, the dashboard view, how it fits your CRM |
 | `consulting.html` | `/consulting` | Consulting & Strategy — campaigns, alignment, pipeline growth |
+| `hyper-targeting.html` | `/hyper-targeting` | Hyper-targeted outreach — the six El Toro capabilities, in Tracey's wording |
 | `about.html` | `/about` | Tracey & David, why the partnership, track record, FAQ |
 | `contact.html` | `/contact` | 15-minute data health check request form |
 | `404.html` | — | Not-found page |
@@ -48,7 +49,8 @@ to nonprofit-sector organizations, as a track-record block inside `about.html`.
 
 ```
 .
-├── index.html  tool.html  consulting.html  about.html  contact.html  404.html
+├── index.html  tool.html  consulting.html  hyper-targeting.html
+├── about.html  contact.html  404.html
 ├── robots.txt  sitemap.xml  favicon.ico  site.webmanifest
 ├── google-apps-script/    # contact-form backend for Google Sheets
 ├── assets/
@@ -309,6 +311,13 @@ in the navigation and CTA bands.
 
 ## What the site must not claim
 
+**No "IP targeting".** Tracey's instruction, verbatim: *"Do not use the term IP targeting on
+the website."* The underlying capability is El Toro's, and David Galvin is their lead
+reseller, but the site describes what it achieves — digital canvassing, web-to-home, CRM
+enrichment — never the mechanism. The nonprofit audience has to be eased into this, and the
+mechanism is the part that spooks people. `/hyper-targeting` is written to that rule and
+should stay that way.
+
 **No "real time".** David confirmed the tool cannot do real-time updates, so advertising it
 would be selling something that does not exist. Every instance was removed — the homepage
 solution list, the `tool.html` capability section and its meta descriptions, the goldmine
@@ -317,6 +326,22 @@ updates"* is now *"Hidden major donors"*.
 
 Keep this in mind for any new copy: the tool re-reads records against fresh signals on a
 cadence, it does not stream them live.
+
+## Hyper-targeting
+
+Added at Tracey's request as the second half of the offer: predictive analytics says who,
+hyper-targeted advertising reaches them. Her framing, from the briefing call: *"we're doing
+the data mining, and then on top of that, the hyper-targeting."*
+
+The six capability blocks on `/hyper-targeting` are **Tracey's own copy, near-verbatim**.
+Only two edits were made: a trailing full stop for consistency across the cards, and
+`Web-to-Home`, which arrived truncated as *"delivers personalized direct"* and is rendered as
+*"personalized direct mail"*. Worth confirming that reading with her.
+
+The homepage carries a three-card teaser of the same content at `#reach`, placed after
+Extract/Enrich/Execute — mine the data first, then go out and reach people. The hero lede
+changed from "predictive data intelligence" to "predictive analytics and hyper-targeted
+advertising", which was the specific edit she asked for.
 
 ## Open items before launch
 
