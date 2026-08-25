@@ -53,6 +53,7 @@ to nonprofit-sector organizations, as a track-record block inside `about.html`.
 ├── about.html  contact.html  404.html
 ├── robots.txt  sitemap.xml  favicon.ico  site.webmanifest
 ├── google-apps-script/    # contact-form backend for Google Sheets
+├── tools/                 # dev-only: design-check.mjs (the site has no deps)
 ├── assets/
 │   ├── css/
 │   │   ├── fonts.css      # @font-face for the self-hosted webfonts
@@ -292,6 +293,29 @@ states are already in place. The form posts `name`, `organization`, `email`, `ph
 
 For live booking, a Calendly (or similar) link can replace the `contact.html#audit` targets
 in the navigation and CTA bands.
+
+## Checking a design change
+
+```bash
+cd tools && npm install        # first time only
+node tools/design-check.mjs    # or --shots to also save screenshots
+```
+
+Renders all seven pages in a real browser and measures three things: contrast
+sampled from **actually painted pixels**, horizontal overflow at 360 / 390 / 768
+/ 1440, and console errors. Exits non-zero on any failure, so it doubles as a
+gate. `.claude/skills/design-check/` carries the full rationale and the
+fix-in-this-order guidance.
+
+Worth stating plainly, because it is the lesson this project kept re-learning:
+**every visual bug that shipped here was invisible in the source and obvious in
+a render.** Icons glued to headings, the footer logo on the wrong background, a
+sliced favicon, an invalid `clamp()` silently dropping a declaration, a grid
+floor forcing sideways scroll on a phone. None of them are catchable by reading
+CSS. Run the check.
+
+The site itself still has no dependencies; Playwright is dev-only and scoped to
+`tools/`.
 
 ## Technical
 

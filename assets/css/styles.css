@@ -1306,13 +1306,16 @@ strong { font-weight: 650; }
   font-weight: 600;
   padding: 0.2rem 0.55rem;
   border-radius: 999px;
-  background: rgba(14, 134, 176, 0.22);
-  border: 1px solid rgba(72, 168, 199, 0.4);
+  /* Darkened rather than tinted with the accent. A translucent accent fill
+     lifts the panel underneath, and the panel is already light enough at the
+     top of its gradient that the label then misses AA. The hue lives in the
+     border and the text instead. */
+  background: rgba(3, 15, 43, 0.45);
+  border: 1px solid rgba(72, 168, 199, 0.45);
   color: var(--teal-400);
 }
 .dash-score--amber {
-  background: rgba(252, 100, 24, 0.2);
-  border-color: rgba(250, 126, 45, 0.4);
+  border-color: rgba(250, 126, 45, 0.45);
   color: var(--amber-400);
 }
 .dash-track {
