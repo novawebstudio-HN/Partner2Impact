@@ -27,7 +27,7 @@ approved copy in that brief.
 | `index.html` | `/` | Dark hero with the logo lockup and the four signals, the goldmine section, solution grid, data-as-currency, partners, CTA |
 | `tool.html` | `/tool` | The Data Tool — scoring, prospect discovery, the dashboard view, how it fits your CRM |
 | `consulting.html` | `/consulting` | Consulting & Strategy — campaigns, alignment, pipeline growth |
-| `hyper-targeting.html` | `/hyper-targeting` | Hyper-targeted outreach — the five El Toro capabilities, in Tracey's wording |
+| `hyper-targeting.html` | `/hyper-targeting` | Hyper-targeted outreach — three capabilities, in Tracey's wording |
 | `about.html` | `/about` | Tracey & David, why the partnership, track record, FAQ |
 | `contact.html` | `/contact` | 15-minute data health check request form |
 | `404.html` | — | Not-found page |
@@ -257,7 +257,7 @@ repository setting change, not a code change.
 ## Wiring up the form
 
 The form works with no backend: on submit it opens the visitor's mail client with the
-message pre-filled and addressed to `Hello@Partner2Impact.com`.
+message pre-filled and addressed to `info@partner2impact.com`.
 
 **That fallback is no longer what runs.** `FORM_ENDPOINT` in `assets/js/main.js` now points
 at the deployed Apps Script web app, so submissions go to the sheet. The mailto path stays in
@@ -271,7 +271,7 @@ appends one row per submission and emails everyone in `NOTIFY_EMAILS`, currently
 `eduardo@generedge.com` and `tracey@generedge.com`.
 
 The sheet and the script both live in the `eduardo@generedge.com` Google account.
-`Hello@Partner2Impact.com` is still the address shown to visitors on the site, but it is
+`info@partner2impact.com` is still the address shown to visitors on the site, but it is
 deliberately **not** on the notification list.
 
 Moving the sheet between Google accounts mints a **new** `/exec` URL — the old one keeps
@@ -354,11 +354,15 @@ The site itself still has no dependencies; Playwright is dev-only and scoped to
 ## What the site must not claim
 
 **No "IP targeting".** Tracey's instruction, verbatim: *"Do not use the term IP targeting on
-the website."* The underlying capability is El Toro's, and David Galvin is their lead
-reseller, but the site describes what it achieves — digital canvassing, web-to-home, CRM
-enrichment — never the mechanism. The nonprofit audience has to be eased into this, and the
-mechanism is the part that spooks people. `/hyper-targeting` is written to that rule and
-should stay that way.
+the website."* The site describes what the capability achieves — digital canvassing,
+targeted ad serving, hyper-targeted direct mail — never the mechanism. The nonprofit audience
+has to be eased into this, and the mechanism is the part that spooks people.
+
+**No named vendor, and no naming who resells it.** The platform behind the targeting is a
+third party's, and Tracey's reason for keeping that off the site is commercial rather than
+presentational: *"do not reference [the vendor] (giving away our back office)"*. The vendor
+was named in the `/hyper-targeting` lead paragraph and twice in this README; all three are
+gone. This repository is public, so the README is as exposed as the site.
 
 **No "real time".** David confirmed the tool cannot do real-time updates, so advertising it
 would be selling something that does not exist. Every instance was removed — the homepage
@@ -396,11 +400,10 @@ the data mining, and then on top of that, the hyper-targeting."*
 The capability blocks on `/hyper-targeting` are **Tracey's own copy, near-verbatim**; only
 trailing full stops were added for consistency across the cards.
 
-The set is now five, not six. `CRM Enrichment` became `Hyper-targeted Direct Mail`,
-`Web-to-Home` was dropped, and `Advanced Analytics` was rewritten. Her note asked to replace
-Web-to-Home with a card headed *Advanced Analytics* — but one already existed, so following
-it literally would have produced two cards with the same heading. Resolved as one card
-carrying the newer copy.
+The set has been trimmed twice and now stands at three: **Digital Canvassing**,
+**Hyper-targeted Direct Mail** and **Targeted Ad Serving Platform**. `CRM Enrichment` became
+Direct Mail, and `Web-to-Home`, `Advanced Analytics` and `Donor Info and Insights` were all
+dropped. The homepage teaser at `#reach` mirrors the same three.
 
 The homepage carries a three-card teaser of the same content at `#reach`, placed after
 Extract/Enrich/Execute — mine the data first, then go out and reach people. The hero lede
@@ -425,8 +428,13 @@ These need Tracey's confirmation — they are claims or assets the site presents
    and white, and asked for colour. It needs the original colour file from David — a
    black-and-white photo cannot be recoloured back to the truth, only invented. Until that
    arrives the site keeps the existing colour headshot.
-6. **Contact email** — `Hello@Partner2Impact.com` is what the site shows visitors, carried
-   from the old site. Confirm it is still monitored. Form notifications go to
-   `NOTIFY_EMAILS` in `Code.gs` instead, not to this address.
+6. **Contact email** — `info@partner2impact.com` is what the site shows visitors. It
+   replaced `Hello@Partner2Impact.com` on Tracey's instruction; confirm the mailbox exists
+   and is monitored. Form notifications go to `NOTIFY_EMAILS` in `Code.gs` instead, not to
+   this address.
 7. **CRM list** on the homepage and in the form dropdown is a reasonable default set. Trim or
    extend it to the systems the tool actually integrates with.
+8. **What the 15-minute call actually delivers.** `/contact` used to promise three things —
+   a live tool demo, a data health read and quick wins. Tracey pulled all three until she
+   has checked with David what is realistic to offer. The heading and the "fifteen minutes,
+   no pitch deck" line stay; the list is gone and needs replacing once that is settled.
