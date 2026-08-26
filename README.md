@@ -92,7 +92,8 @@ hero is very nearly invisible.
 
 | File | Where it goes |
 | --- | --- |
-| `logo.svg` | Header and the 404 page — anything on white or `--sand` |
+| `logo.svg` | Full lockup with the tagline, for light backgrounds |
+| `logo-compact.svg` | Header only. Same lockup with `rule` and `tagline` stripped and the viewBox back to 460 |
 | `logo-reverse.svg` | Hero, closing CTA band, footer — anything on navy |
 | `logo-mono-white.svg`, `logo-mono-navy.svg` | Single-colour fallbacks. Not used on the site; kept for print and third-party placements |
 
@@ -112,8 +113,13 @@ The lockup carries the tagline: five paths, not three — `wordmark`, `impact`, 
 without the tagline, so every slot was resized again.
 
 **The tagline sets the minimum size**, not the wordmark. Below roughly 58px of total height
-it stops being readable, which is why the header logo and the nav bar with it are taller than
-the tagline-free version needed. Rendered at 56 / 68 / 80 / 92px before choosing.
+it stops being readable — and a header tall enough to clear that bar makes the nav ungainly.
+So the header uses `logo-compact.svg` instead: the same lockup with the `rule` and `tagline`
+removed, which lets the bar go back to a normal height with the wordmark still large.
+
+That split is the usual convention rather than a compromise — small placements drop the
+tagline, large ones keep it. The hero, closing CTA band and footer all carry the full lockup,
+where the tagline reads comfortably.
 
 The tagline is `#6B7C93`, which measures 4.26:1 on white — under the 4.5:1 threshold that
 would apply to body text. It is exempt: WCAG places no contrast requirement on text that
