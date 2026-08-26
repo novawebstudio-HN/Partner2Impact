@@ -155,7 +155,7 @@
      CORS-safelisted content type, so the browser skips the preflight OPTIONS
      request that Apps Script cannot answer. */
   var FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyW-bvysipZQXIWDCLEsrhPaJxZWtiWePHyM3Vi7ABIZubJU7aTAzy6b6TL2ok14ATBvQ/exec';
-  var CONTACT_EMAIL = 'Hello@Partner2Impact.com';
+  var CONTACT_EMAIL = 'info@partner2impact.com';
 
   var form = document.querySelector('[data-contact-form]');
   if (form) {
