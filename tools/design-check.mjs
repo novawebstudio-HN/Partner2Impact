@@ -119,6 +119,15 @@ for (const name of PAGES) {
         /* The skip link sits off-screen until focused; sampling it reads the
            page behind it and reports a failure that does not exist. */
         if (!el.offsetParent || el.closest('.skip-link')) return;
+        /* offsetParent is still set on a visibility:hidden or opacity:0
+           subtree — a closed dropdown, say — so those have to be excluded
+           separately or they get measured against whatever is painted behind
+           them. */
+        for (let n = el; n; n = n.parentElement) {
+          const cs = getComputedStyle(n);
+          if (cs.visibility === 'hidden' || cs.visibility === 'collapse') return;
+          if (parseFloat(cs.opacity) === 0) return;
+        }
         const text = [...el.childNodes].filter(n => n.nodeType === 3)
           .map(n => n.textContent.trim()).join('');
         if (!text) return;

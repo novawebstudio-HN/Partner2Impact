@@ -37,12 +37,19 @@
       <span></span><span class="visually-hidden">Menu</span>
     </button>
     <ul class="nav-links" id="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/tool">The Data Tool</a></li>
-      <li><a href="/consulting">Consulting</a></li>
-      <li><a href="/hyper-targeting" aria-current="page">Hyper-Targeting</a></li>
       <li><a href="/about">About Us</a></li>
-      <li><a href="/contact">Contact</a></li>
+      <li class="nav-has-sub">
+        <button class="nav-sub-toggle" type="button" aria-expanded="false"
+                aria-controls="nav-sub-solutions" data-current>
+          Solutions <span class="nav-caret" aria-hidden="true"></span>
+        </button>
+        <ul class="nav-sub" id="nav-sub-solutions">
+          <li><a href="/tool">The Data Tool</a></li>
+          <li><a href="/consulting">Consulting</a></li>
+          <li><a href="/hyper-targeting" aria-current="page">Hyper-Targeting</a></li>
+        </ul>
+      </li>
+      <li><a href="/contact">Contact Us</a></li>
       <li class="nav-links__cta"><a class="btn btn--sm btn--amber" href="/contact#audit">Request Data Audit</a></li>
     </ul>
     <a class="btn btn--sm btn--amber nav-cta" href="/contact#audit">Request Data Audit</a>
@@ -60,9 +67,13 @@
       <p class="eyebrow">Hyper-targeted advertising</p>
       <h1>Knowing who to ask<br>is only half the work</h1>
       <p>
-        Predictive analytics tells you which supporters are ready. Hyper-targeted advertising
-        puts your message in front of them — and in front of the households most likely to
-        become supporters — through digital advertising and direct mail.
+        The data tells you which supporters are ready. Hyper-targeted advertising puts your
+        message in front of the households most likely to become supporters — through
+        digital advertising and direct mail.
+      </p>
+      <p class="lede-define">
+        Hyper-target marketing is an advanced advertising strategy that uses data and user
+        behavior to reach narrow, specific audience groups instead of a large general crowd.
       </p>
       <p style="margin-top:1.75rem">
         <a class="btn btn--amber" href="/contact#audit">
@@ -94,7 +105,7 @@
     <div class="shell">
       <div class="section-head" data-reveal>
         <p class="eyebrow">What it covers</p>
-        <h2>Six ways to reach the right audience</h2>
+        <h2>Five ways to reach the right audience</h2>
         <p class="section-head__lead">
           Delivered with David Galvin, lead reseller for
           <a href="https://eltoro.com/" rel="noopener">El Toro</a>, whose platform powers the
@@ -113,15 +124,19 @@
         <article class="card" data-reveal data-reveal-delay="60">
           <h3>Advanced Analytics</h3>
           <p>
-            Extrapolate data based upon human intent, ensuring the cultivation is reaching the
-            right audiences.
+            Nonprofits gain a competitive advantage from our marketing technology as we
+            secure dataset which form the foundation of our analysis, delivering
+            statistically reliable insights to prospective donors.
           </p>
         </article>
         <article class="card" data-reveal data-reveal-delay="120">
-          <h3>CRM Enrichment</h3>
+          <h3>Hyper-targeted Direct Mail</h3>
           <p>
-            Enhance your donor data by integrating engagement metrics and household
-            demographics.
+            Transform traditional direct mail from a broad, expensive gamble into a precise,
+            automated, and measurable revenue engine. Apply your predictive and digital
+            intent data to automatically trigger customized mailers the moment a prospective
+            donor shows interest. Send the right message to the right audience — precisely
+            when they are most likely to give.
           </p>
         </article>
         <article class="card" data-reveal data-reveal-delay="180">
@@ -134,13 +149,6 @@
           <h3>Donor Info and Insights</h3>
           <p>
             Unlock donor data to understand and connect.
-          </p>
-        </article>
-        <article class="card" data-reveal data-reveal-delay="300">
-          <h3>Web-to-Home</h3>
-          <p>
-            Identifies anonymous website visitors and delivers personalized direct mail to
-            their homes without relying on cookies.
           </p>
         </article>
       </div>

@@ -316,6 +316,71 @@ strong { font-weight: 650; }
 .nav-links a:not(.btn):hover { color: var(--navy); background: var(--sand); }
 .nav-links a[aria-current="page"] { color: var(--navy); font-weight: 650; }
 
+/* --------------------------------------------------------------------------
+   Solutions dropdown
+   Hover opens it on a pointer; the button carries aria-expanded so keyboard
+   and touch get the same menu without depending on hover.
+   -------------------------------------------------------------------------- */
+
+.nav-has-sub { position: relative; }
+
+.nav-sub-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.85rem;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--slate-700);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 550;
+  cursor: pointer;
+  transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+.nav-sub-toggle:hover { color: var(--navy); background: var(--sand); }
+/* Set on whichever page lives inside this section, so the trail is visible
+   without the menu being open. */
+.nav-sub-toggle[data-current] { color: var(--navy); font-weight: 650; }
+
+.nav-caret {
+  width: 0.42rem; height: 0.42rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.2s var(--ease);
+}
+.nav-sub-toggle[aria-expanded="true"] .nav-caret { transform: translateY(1px) rotate(-135deg); }
+
+.nav-sub {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  z-index: 60;
+  min-width: 13rem;
+  margin: 0;
+  padding: 0.4rem;
+  list-style: none;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.18s var(--ease), transform 0.18s var(--ease), visibility 0.18s;
+}
+.nav-has-sub:hover > .nav-sub,
+.nav-has-sub:focus-within > .nav-sub,
+.nav-sub-toggle[aria-expanded="true"] + .nav-sub {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.nav-sub li { margin-bottom: 0; }
+.nav-sub a { white-space: nowrap; }
+
 .nav-cta { display: inline-flex; }
 
 /* The in-menu CTA is for the mobile drawer only. */
@@ -378,6 +443,29 @@ strong { font-weight: 650; }
   .nav-links.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
   .nav-links li { margin-bottom: 0; }
   .nav-links a:not(.btn) { padding: 0.9rem 0.75rem; font-size: 1.05rem; border-radius: 12px; }
+  .nav-sub-toggle { width: 100%; justify-content: space-between; padding: 0.9rem 0.75rem; font-size: 1.05rem; border-radius: 12px; }
+  /* The drawer is already a panel, so the submenu sits inline inside it
+     rather than floating over the page. */
+  .nav-sub {
+    position: static;
+    min-width: 0;
+    margin: 0.15rem 0 0.35rem 0.75rem;
+    padding: 0 0 0 0.75rem;
+    border: 0;
+    border-left: 2px solid var(--line);
+    border-radius: 0;
+    box-shadow: none;
+    display: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .nav-sub-toggle[aria-expanded="true"] + .nav-sub { display: block; }
+  /* Hover must not open it on touch — only the button does. */
+  .nav-has-sub:hover > .nav-sub,
+  .nav-has-sub:focus-within > .nav-sub { display: none; }
+  .nav-sub-toggle[aria-expanded="true"] + .nav-sub { display: block; }
+
   .nav-links .nav-links__cta { margin-top: 0.75rem; }
   .nav-links .nav-links__cta .btn { width: 100%; padding-block: 0.95rem; font-size: 1rem; }
 }
