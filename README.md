@@ -15,7 +15,7 @@ All copy follows Tracey's brand brief (the Gemini planning session, `Website Ref
 Nonprofit Data`). None of the pre-2026 website copy was carried over — that was an explicit
 requirement.
 
-The positioning: 20+ years of nonprofit fundraising strategy (Tracey Wiseman) combined with
+The positioning: 30+ years of nonprofit fundraising strategy (Tracey Wiseman) combined with
 predictive data intelligence (David Galvin, *"data is currency"*). Headline, pain points,
 solution grid, Extract/Enrich/Execute, bios, and the lead-capture form all come from the
 approved copy in that brief.
@@ -27,7 +27,7 @@ approved copy in that brief.
 | `index.html` | `/` | Dark hero with the logo lockup and the four signals, the goldmine section, solution grid, data-as-currency, partners, CTA |
 | `tool.html` | `/tool` | The Data Tool — scoring, prospect discovery, the dashboard view, how it fits your CRM |
 | `consulting.html` | `/consulting` | Consulting & Strategy — campaigns, alignment, pipeline growth |
-| `hyper-targeting.html` | `/hyper-targeting` | Hyper-targeted outreach — the six El Toro capabilities, in Tracey's wording |
+| `hyper-targeting.html` | `/hyper-targeting` | Hyper-targeted outreach — the five El Toro capabilities, in Tracey's wording |
 | `about.html` | `/about` | Tracey & David, why the partnership, track record, FAQ |
 | `contact.html` | `/contact` | 15-minute data health check request form |
 | `404.html` | — | Not-found page |
@@ -351,16 +351,43 @@ updates"* is now *"Hidden major donors"*.
 Keep this in mind for any new copy: the tool re-reads records against fresh signals on a
 cadence, it does not stream them live.
 
+## Navigation
+
+Four top-level items, per Tracey: **About Us · Solutions · Resources · Contact Us**, with
+Solutions opening a dropdown. Home is reached through the logo, which is the convention and
+is why it is not a nav item.
+
+Two deliberate departures from that spec, both flagged rather than silently absorbed:
+
+- **Resources is not in the nav yet.** No such page exists, and a nav item pointing at a 404
+  is worse than a missing one. It goes in as soon as there is something to link to.
+- **Consulting sits in the Solutions dropdown**, which Tracey's note listed as Data Tool and
+  Hyper-Targeting only. `/consulting` is a live page in the sitemap; dropping it from the nav
+  would orphan it. If it is meant to retire, that is a content decision, not a nav one.
+
+The dropdown opens on hover for pointers, and the button carries `aria-expanded` so keyboard
+and touch get the same menu without depending on hover — which does not exist on touch and
+sticks after a tap. Escape closes it and returns focus to the button; so does clicking away
+or tabbing past the last item. In the mobile drawer it expands inline instead of floating,
+and the hover rules are switched off there for the same reason.
+
+`.nav-sub-toggle[data-current]` marks the section the current page belongs to, so the trail
+is visible without the menu being open.
+
 ## Hyper-targeting
 
 Added at Tracey's request as the second half of the offer: predictive analytics says who,
 hyper-targeted advertising reaches them. Her framing, from the briefing call: *"we're doing
 the data mining, and then on top of that, the hyper-targeting."*
 
-The six capability blocks on `/hyper-targeting` are **Tracey's own copy, near-verbatim**.
-Only two edits were made: a trailing full stop for consistency across the cards, and
-`Web-to-Home`, which arrived truncated as *"delivers personalized direct"* and is rendered as
-*"personalized direct mail"*. Worth confirming that reading with her.
+The capability blocks on `/hyper-targeting` are **Tracey's own copy, near-verbatim**; only
+trailing full stops were added for consistency across the cards.
+
+The set is now five, not six. `CRM Enrichment` became `Hyper-targeted Direct Mail`,
+`Web-to-Home` was dropped, and `Advanced Analytics` was rewritten. Her note asked to replace
+Web-to-Home with a card headed *Advanced Analytics* — but one already existed, so following
+it literally would have produced two cards with the same heading. Resolved as one card
+carrying the newer copy.
 
 The homepage carries a three-card teaser of the same content at `#reach`, placed after
 Extract/Enrich/Execute — mine the data first, then go out and reach people. The hero lede

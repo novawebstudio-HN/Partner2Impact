@@ -21,6 +21,8 @@
       if (e.target.closest('a')) {
         toggle.setAttribute('aria-expanded', 'false');
         links.classList.remove('is-open');
+        var st = links.querySelector('.nav-sub-toggle');
+        if (st) st.setAttribute('aria-expanded', 'false');
       }
     });
 
@@ -30,6 +32,40 @@
         links.classList.remove('is-open');
         toggle.focus();
       }
+    });
+  }
+
+  /* ----------------------------------------------------------------------
+     Solutions dropdown
+     Hover handles it on a pointer; this covers keyboard and touch, where
+     hover either does not exist or sticks after a tap.
+     ---------------------------------------------------------------------- */
+  var subToggle = document.querySelector('.nav-sub-toggle');
+  var sub = document.getElementById('nav-sub-solutions');
+
+  if (subToggle && sub) {
+    var closeSub = function () { subToggle.setAttribute('aria-expanded', 'false'); };
+
+    subToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = subToggle.getAttribute('aria-expanded') === 'true';
+      subToggle.setAttribute('aria-expanded', String(!open));
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.nav-has-sub')) closeSub();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && subToggle.getAttribute('aria-expanded') === 'true') {
+        closeSub();
+        subToggle.focus();
+      }
+    });
+
+    /* Tabbing past the last item should close it, the same as clicking away. */
+    sub.addEventListener('focusout', function (e) {
+      if (!e.relatedTarget || !e.relatedTarget.closest('.nav-has-sub')) closeSub();
     });
   }
 
