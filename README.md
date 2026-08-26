@@ -107,9 +107,21 @@ Rasters are only generated where a vector cannot be used:
 | `og-image.jpg` | Social cards do not render SVG. 1200×630, logo on the hero gradient |
 | `logo-1200.png` | `schema.org` `logo` expects a raster URL |
 
-The lockup is 2.90:1, much wider than the 1.83:1 mark it replaced, so every slot was resized:
-the header is driven by height (the nav bar constrains it), and the hero, CTA and footer by
-width.
+The lockup carries the tagline: five paths, not three — `wordmark`, `impact`, `accent`, plus
+`rule` (the orange line) and `tagline`. It measures 2.04:1, taller than the 2.90:1 version
+without the tagline, so every slot was resized again.
+
+**The tagline sets the minimum size**, not the wordmark. Below roughly 58px of total height
+it stops being readable, which is why the header logo and the nav bar with it are taller than
+the tagline-free version needed. Rendered at 56 / 68 / 80 / 92px before choosing.
+
+The tagline is `#6B7C93`, which measures 4.26:1 on white — under the 4.5:1 threshold that
+would apply to body text. It is exempt: WCAG places no contrast requirement on text that
+forms part of a logo. Worth knowing rather than "fixing", since altering it would mean
+altering the supplied brand asset.
+
+The favicon did not need regenerating: the `wordmark` path is byte-identical between the two
+lockups, so the P2 monogram sits at the same coordinates and the existing crop still holds.
 
 ## Favicon and app icons
 
@@ -353,17 +365,12 @@ cadence, it does not stream them live.
 
 ## Navigation
 
-Four top-level items, per Tracey: **About Us · Solutions · Resources · Contact Us**, with
-Solutions opening a dropdown. Home is reached through the logo, which is the convention and
-is why it is not a nav item.
+**Home · About Us · Solutions · Contact Us**, with Solutions opening a dropdown that holds
+The Data Tool, Hyper-Targeting and Consulting, in that order.
 
-Two deliberate departures from that spec, both flagged rather than silently absorbed:
-
-- **Resources is not in the nav yet.** No such page exists, and a nav item pointing at a 404
-  is worse than a missing one. It goes in as soon as there is something to link to.
-- **Consulting sits in the Solutions dropdown**, which Tracey's note listed as Data Tool and
-  Hyper-Targeting only. `/consulting` is a live page in the sitemap; dropping it from the nav
-  would orphan it. If it is meant to retire, that is a content decision, not a nav one.
+**Resources is deliberately absent.** Tracey's nav sketch listed it, but there is no such
+page and no content for one yet. A nav item pointing at a 404 is worse than a missing one, so
+it goes in once there is something behind it.
 
 The dropdown opens on hover for pointers, and the button carries `aria-expanded` so keyboard
 and touch get the same menu without depending on hover — which does not exist on touch and

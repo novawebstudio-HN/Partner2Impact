@@ -289,11 +289,11 @@ strong { font-weight: 650; }
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  min-height: 5.5rem;
+  min-height: 6.5rem;
 }
 
 .brand { margin-right: auto; display: inline-flex; align-items: center; }
-.brand img { width: auto; height: clamp(48px, 3.6vw, 62px); }
+.brand img { width: auto; height: clamp(58px, 4.4vw, 74px); }
 
 .nav-links {
   display: flex;
@@ -422,12 +422,12 @@ strong { font-weight: 650; }
 .nav-toggle[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
 
 @media (max-width: 900px) {
-  .brand img { height: 40px; }
+  .brand img { height: 56px; }
   .nav-toggle { display: inline-flex; }
   .nav-cta { display: none; }
   .nav-links {
     position: fixed;
-    inset: 5.5rem 0 auto;
+    inset: 6.5rem 0 auto;
     flex-direction: column;
     align-items: stretch;
     gap: 0.15rem;
@@ -1707,7 +1707,7 @@ strong { font-weight: 650; }
 
 /* Closing CTA band */
 .cta-logo {
-  width: clamp(11rem, 8rem + 8vw, 16rem);
+  width: clamp(12rem, 9rem + 8vw, 17rem);
   height: auto;
   margin: 0 auto clamp(1.25rem, 1rem + 1vw, 1.85rem);
 }
