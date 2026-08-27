@@ -1736,6 +1736,9 @@ strong { font-weight: 650; }
   letter-spacing: -0.01em;
   color: var(--ink);
   max-width: 44rem;
-  margin-inline: auto;
 }
+/* Only a centred head centres its lead. The lead is 2rem narrower than the
+   head that holds it, so centring it inside a left-aligned head pushed it
+   16px right of the heading it sits under. */
+.section-head--center .section-head__lead { margin-inline: auto; }
 .section--ink .section-head .section-head__lead { color: #fff; }
