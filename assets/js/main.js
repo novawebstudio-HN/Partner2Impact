@@ -271,7 +271,7 @@
 
       var href =
         'mailto:' + CONTACT_EMAIL +
-        '?subject=' + encodeURIComponent('Data health check request — ' + (data.get('organization') || data.get('name') || 'New enquiry')) +
+        '?subject=' + encodeURIComponent('Data health check up request — ' + (data.get('organization') || data.get('name') || 'New enquiry')) +
         '&body=' + encodeURIComponent(lines.join('\n'));
 
       window.location.href = href;

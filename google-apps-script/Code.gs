@@ -1,7 +1,7 @@
 /**
  * Partner2Impact — contact form backend
  *
- * Receives the "15-minute data health check" form from partner2impact.com,
+ * Receives the "15-minute data health check up" form from partner2impact.com,
  * appends one row per submission to a Google Sheet, and emails a notification.
  *
  * ---------------------------------------------------------------------------
@@ -161,7 +161,7 @@ function notify(data) {
       // visitor rather than the other people who were notified.
       to: NOTIFY_EMAILS.join(','),
       replyTo: data.email,
-      subject: 'New data health check request — ' + who,
+      subject: 'New data health check up request — ' + who,
       body: body + '\n\n— partner2impact.com'
     });
   } catch (err) {
