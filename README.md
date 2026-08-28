@@ -29,7 +29,7 @@ approved copy in that brief.
 | `consulting.html` | `/consulting` | Consulting & Strategy — campaigns, alignment, pipeline growth |
 | `hyper-targeting.html` | `/hyper-targeting` | Hyper-targeted outreach — three capabilities, in Tracey's wording |
 | `about.html` | `/about` | Tracey & David, why the partnership, track record, FAQ |
-| `contact.html` | `/contact` | 15-minute data health check request form |
+| `contact.html` | `/contact` | 15-minute data health check up request form |
 | `404.html` | — | Not-found page |
 
 **Clean URLs.** Every internal link, canonical and sitemap entry uses the extensionless
@@ -438,3 +438,11 @@ These need Tracey's confirmation — they are claims or assets the site presents
    a live tool demo, a data health read and quick wins. Tracey pulled all three until she
    has checked with David what is realistic to offer. The heading and the "fifteen minutes,
    no pitch deck" line stay; the list is gone and needs replacing once that is settled.
+9. **The privacy FAQ names GDPR and CCPA.** The answer on `/about` is Tracey's own wording,
+   reproduced almost verbatim — a statement about how the practice handles data, not a claim
+   this repository can verify. It is the only place on the site that names a specific
+   regulation, so it is the one to re-read if the data handling ever changes.
+10. **"Data health check up"** is Tracey's wording, applied everywhere the offering is named.
+   The standard English noun is "checkup" or "check-up"; "check up" as two words is the verb
+   phrase. It appears in the `/contact` title tag and `h1`, so it is worth confirming with
+   her before it settles into search results.
