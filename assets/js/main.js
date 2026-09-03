@@ -140,13 +140,54 @@
   }
 
   /* ----------------------------------------------------------------------
-     Contact form — removed
+     Calendly badge
 
-     Booking now happens in Calendly's embedded widget on /contact, so there
-     is no form to validate or post. The Apps Script backend is still in
-     google-apps-script/Code.gs and the README still carries the wiring, in
-     case a form is ever wanted again.
+     A booking button that stays in the corner as the visitor moves through
+     the site. Skipped on /contact, where the calendar is already inline and
+     a floating button over it would be silly.
+
+     Loaded on window load, and injected rather than written into all eight
+     pages: the stylesheet is Calendly's and render-blocking, so keeping it
+     out of <head> means the badge can never delay the page it sits on.
+     Calendly's own snippet assigns window.onload directly, which would
+     clobber anything else that wanted it.
+
+     Note the privacy cost, which is recorded in /privacy: this loads
+     Calendly, and its cookies, on every page rather than only on /contact.
+
+     The contact form was removed with the switch to booking. Its Apps Script
+     backend is still in google-apps-script/Code.gs and the README still
+     carries the wiring, in case a form is ever wanted again.
      ---------------------------------------------------------------------- */
+
+  var CALENDLY_URL = 'https://calendly.com/tracey-partner2impact/30min';
+
+  if (!document.querySelector('.calendly-inline-widget')) {
+    var loadBadge = function () {
+      var css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = 'https://assets.calendly.com/assets/external/widget.css';
+      document.head.appendChild(css);
+
+      var js = document.createElement('script');
+      js.src = 'https://assets.calendly.com/assets/external/widget.js';
+      js.async = true;
+      js.onload = function () {
+        if (!window.Calendly) return;
+        window.Calendly.initBadgeWidget({
+          url: CALENDLY_URL,
+          text: 'Book 15 minutes',
+          color: '#cf4703',
+          textColor: '#ffffff',
+          branding: true
+        });
+      };
+      document.head.appendChild(js);
+    };
+
+    if (document.readyState === 'complete') loadBadge();
+    else window.addEventListener('load', loadBadge);
+  }
 
   /* ----------------------------------------------------------------------
      Footer year

@@ -1047,6 +1047,13 @@ strong { font-weight: 650; }
   text-align: center;
   color: var(--slate-700);
 }
+/* Calendly APPENDS its iframe to the widget div rather than replacing what is
+   already inside it, so the fallback has to be switched off once the iframe
+   turns up — otherwise both are on screen and the page tells the visitor the
+   calendar failed while the calendar sits right underneath. Reactive by
+   design: no timer to guess at, and if the iframe never arrives the message
+   simply stays. */
+.calendly-inline-widget:has(iframe) .scheduler-fallback { display: none; }
 
 /* Email and anything beside it sit under the calendar, centred, rather than
    in a column next to it — the widget is 700px tall and would tower over
