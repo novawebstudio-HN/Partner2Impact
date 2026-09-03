@@ -77,9 +77,21 @@ plus the "empowering nonprofit fundraising" footnote. The AI-generated artwork i
 
 Built from CSS and inline SVG rather than an image: crisp at any size, no image request,
 reflows to one column on mobile, and the text is real text (selectable, translatable,
-indexable). Each card carries a five-bar mini chart — rising for the three opportunity
-signals, falling for lapse risk, because that is the shape of the thing being described.
-Lapse risk is also the one amber card, matching what amber means everywhere else on the site.
+indexable). Lapse risk is the one amber card, matching what amber means everywhere else on
+the site.
+
+**Each card draws its own signal.** The first version gave all four the same five-bar chart,
+which was decoration wearing the costume of data — identical in shape across four cards whose
+entire point is that they detect four different things. Tracey did not buy it. Each now draws
+the behaviour it names: a field of donors where the high-capacity few stand out, a giving line
+that falls and the dashed intervention that bends it back up, a climb between giving tiers,
+and supporters converging from outside the file onto the mission.
+
+Hover animates the drawing and nothing else. No text, no meaning, and nothing a pointer-less
+visitor cannot reach lives behind it — the resting state is the complete picture, so touch and
+`prefers-reduced-motion` lose the reward for looking but never the content. The drawings
+inherit each card's `--accent` through `currentColor`, so the amber card needs no separate
+artwork.
 
 The donor-intelligence dashboard now lives on `tool.html`, where a product view belongs,
 with a caption stating that the figures are illustrative.
