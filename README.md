@@ -29,7 +29,9 @@ approved copy in that brief.
 | `consulting.html` | `/consulting` | Consulting & Strategy — campaigns, alignment, pipeline growth |
 | `hyper-targeting.html` | `/hyper-targeting` | Hyper-targeted outreach — three capabilities, in Tracey's wording |
 | `about.html` | `/about` | Tracey & David, why the partnership, track record, FAQ |
-| `contact.html` | `/contact` | 15-minute data health check up request form |
+| `contact.html` | `/contact` | Calendly booking widget, email, quote |
+| `privacy.html` | `/privacy` | Privacy Policy |
+| `terms.html` | `/terms` | Terms and Conditions |
 | `404.html` | — | Not-found page |
 
 **Clean URLs.** Every internal link, canonical and sitemap entry uses the extensionless
@@ -305,9 +307,11 @@ Three things follow from the switch, and none of them are code:
    external scripts at all before this. `/about` now carries a FAQ claiming GDPR and CCPA
    compliance, and the site has no cookie notice or privacy page. Calendly's embed dialog has
    a "Hide Cookie Banner" switch, which is left off, so their banner shows.
-3. **The event is 30 minutes; the site says 15.** Eleven strings across five pages promise a
-   "15-minute data health check up", and the booking page offers a 30 Minute Meeting. One of
-   the two has to move, and which one is Tracey's call.
+3. **Event length.** The site promises a "15-minute data health check up" in eleven strings
+   across five pages. Tracey is changing the Calendly event to 15 minutes to match, so the
+   copy stays. If that means a **new** event rather than an edit to the existing one, its
+   slug changes and `data-url` in `contact.html` has to be updated with it — editing an
+   event's duration keeps the slug, creating a replacement does not.
 
 The form markup, its 150 lines of CSS, and its 130-line handler in `main.js` are all removed
 rather than left inert.
@@ -458,6 +462,38 @@ The homepage carries a three-card teaser of the same content at `#reach`, placed
 Extract/Enrich/Execute — mine the data first, then go out and reach people. The hero lede
 changed from "predictive data intelligence" to "predictive analytics and hyper-targeted
 advertising", which was the specific edit she asked for.
+
+## The legal pages
+
+`/privacy` and `/terms`, linked from the footer of every page and listed in the sitemap.
+
+They exist because the site now loads Calendly, which is its **first third-party script and
+the only thing on the site that sets a cookie** — under an `/about` FAQ that claims GDPR and
+CCPA compliance.
+
+**The privacy policy is specific rather than boilerplate, and that was the point.** Before
+writing it the site was audited for what it actually does, and the answer is unusually clean:
+no analytics, no tag manager, no advertising or tracking pixels, no cookies of its own, no
+`localStorage`, and self-hosted fonts, so loading a page does not tell a font network you
+were here. The only external request on the whole site is Calendly's widget, and only on
+`/contact`. A generic policy would have claimed cookie categories this site does not have and
+would have been wrong in the organization's favour, which is the worst direction to be wrong
+in. If analytics are ever added, that section stops being true and has to change with them.
+
+The policy also covers the part that matters most to a nonprofit reading it: the donor data
+handled under an engagement, where **the client is the controller and Partner2Impact is the
+processor**, working on documented instructions under an agreement signed before access.
+
+### These are drafts, not legal advice
+
+They were written for this site by reading what it does, not by a lawyer. Three things are
+deliberately absent rather than invented, and all three want a qualified review:
+
+1. **No registered legal entity name.** The pages say "Partner2Impact", the trading name used
+   everywhere else on the site.
+2. **No postal address.** GDPR expects the controller's contact details; email alone is thin.
+3. **No governing-law clause in the terms.** The jurisdiction was not known and guessing it
+   from the client list would have been a guess in a clause that exists to remove ambiguity.
 
 ## Open items before launch
 

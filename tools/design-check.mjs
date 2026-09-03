@@ -30,7 +30,7 @@ import { existsSync } from 'node:fs';
 import { extname, join, resolve } from 'node:path';
 
 const ROOT = resolve(import.meta.dirname, '..');
-const PAGES = ['index', 'tool', 'consulting', 'hyper-targeting', 'about', 'contact', '404'];
+const PAGES = ['index', 'tool', 'consulting', 'hyper-targeting', 'about', 'contact', 'privacy', 'terms', '404'];
 const WIDTHS = [360, 390, 768, 1440];
 const SHOTS = process.argv.includes('--shots');
 const PORT = Number(process.argv[process.argv.indexOf('--port') + 1]) || 8123;
