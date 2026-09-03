@@ -67,9 +67,21 @@ to nonprofit-sector organizations, as a track-record block inside `about.html`.
 
 ## The hero and the four signals
 
-The hero is a single dark section: headline, actions, and Tracey's four signals underneath.
-The signals are the hero's visual payload, so there is **one** headline at the top of the
-page rather than two competing ones.
+The hero is a single dark section and holds one idea: logo, headline, lede, and the
+15-minute button. Nothing else.
+
+**The signals are their own white section, directly below it.** They started inside the hero
+as its visual payload, and Tracey turned that down — not the cards themselves but the cards
+on the navy. Moving them out gives the hero a single job and lets the panel run navy → white
+→ sand down the page. Everything about the card inverts with the move: white surfaces on
+`--line` borders, `--ink` headings, and the accent pair steps down from the dark-background
+`--teal-400` / `--amber-400` to `--teal` / `--amber`.
+
+That accent split is worth knowing before touching it. `--accent` draws the graphics and
+`--accent-ink` sets the chip label, and they differ because the hue that reads well as a 2px
+line is not always the one that clears AA as 0.85rem text over a 10% wash of itself. Every
+resting opacity in the drawings also came up a step: a pale mark washes out against white
+faster than it does against navy.
 
 The signals are a rebuild of Tracey's "Fusion of Predictive Data and Strategy" graphic. Her
 wording is kept verbatim — major gift prospects, lapse risk, upgrade donors, new prospects,
@@ -82,7 +94,7 @@ the site.
 
 **Each card draws its own signal.** The first version gave all four the same five-bar chart,
 which was decoration wearing the costume of data — identical in shape across four cards whose
-entire point is that they detect four different things. Tracey did not buy it. Each now draws
+entire point is that they detect four different things. Each now draws
 the behaviour it names: a field of donors where the high-capacity few stand out, a giving line
 that falls and the dashed intervention that bends it back up, a climb between giving tiers,
 and supporters converging from outside the file onto the mission.

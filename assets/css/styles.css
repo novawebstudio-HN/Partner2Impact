@@ -528,27 +528,27 @@ strong { font-weight: 650; }
 }
 
 /* Divider label introducing the signal row */
-.hero-label {
+.signals-label {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin: clamp(3rem, 2.2rem + 2.5vw, 4.25rem) 0 clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  margin: 0 0 clamp(1.5rem, 1.2rem + 1vw, 2rem);
   font-size: 0.74rem;
   font-weight: 650;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(226, 232, 240, 0.62);
+  color: var(--slate-500);
   white-space: nowrap;
 }
-.hero-label::before,
-.hero-label::after {
+.signals-label::before,
+.signals-label::after {
   content: "";
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+  background: linear-gradient(90deg, transparent, var(--sand-200), transparent);
 }
 @media (max-width: 34rem) {
-  .hero-label { white-space: normal; text-align: center; }
+  .signals-label { white-space: normal; text-align: center; }
 }
 
 /* --------------------------------------------------------------------------
@@ -566,9 +566,13 @@ strong { font-weight: 650; }
 }
 
 .signal {
-  --accent: var(--teal-400);
-  --accent-soft: rgba(72, 168, 199, 0.18);
-  --accent-line: rgba(72, 168, 199, 0.42);
+  /* --accent draws the graphics, --accent-ink sets type on the tinted chip.
+     They differ because the hue that reads well as a 2px line is not always
+     the one that clears AA as 0.85rem text over a 10% wash of itself. */
+  --accent: var(--teal);
+  --accent-ink: var(--teal-600);
+  --accent-soft: rgba(9, 109, 145, 0.1);
+  --accent-line: rgba(9, 109, 145, 0.3);
 
   position: relative;
   display: flex;
@@ -576,19 +580,17 @@ strong { font-weight: 650; }
   margin: 0;
   padding: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.11);
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-  transition: transform 0.32s var(--ease), background-color 0.32s var(--ease),
-              border-color 0.32s var(--ease), box-shadow 0.32s var(--ease);
+  transition: transform 0.32s var(--ease), border-color 0.32s var(--ease),
+              box-shadow 0.32s var(--ease);
 }
 .signal:hover {
   transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.075);
   border-color: var(--accent-line);
-  box-shadow: 0 18px 40px rgba(3, 15, 43, 0.55);
+  box-shadow: var(--shadow);
 }
 
 /* A hairline in the card's own accent, drawn from the centre out on hover,
@@ -629,9 +631,10 @@ strong { font-weight: 650; }
   border-color: var(--accent);
 }
 .signal--risk {
-  --accent: var(--amber-400);
-  --accent-soft: rgba(250, 126, 45, 0.18);
-  --accent-line: rgba(250, 126, 45, 0.42);
+  --accent: var(--amber);
+  --accent-ink: var(--amber-600);
+  --accent-soft: rgba(207, 71, 3, 0.1);
+  --accent-line: rgba(207, 71, 3, 0.3);
 }
 
 /* Chip and icon share one row, chip left and icon pushed to the right edge.
@@ -665,19 +668,19 @@ strong { font-weight: 650; }
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .signal h2,
 .signal h3 {
   font-size: 1.06rem;
-  color: #fff;
+  color: var(--ink);
   margin-bottom: 0.35rem;
 }
 .signal p {
   font-size: 0.885rem;
   line-height: 1.55;
-  color: rgba(226, 232, 240, 0.72);
+  color: var(--slate-700);
   margin-bottom: 0;
 }
 
@@ -710,7 +713,7 @@ strong { font-weight: 650; }
 }
 
 /* 1 — Major gift prospects: the field dims, the high-capacity few swell. */
-.viz-field circle { opacity: 0.4; transition: opacity 0.45s var(--ease); }
+.viz-field circle { opacity: 0.45; transition: opacity 0.45s var(--ease); }
 .viz-major circle {
   opacity: 0.85;
   transform-box: fill-box;
@@ -726,7 +729,7 @@ strong { font-weight: 650; }
    recorded one. */
 .viz-line { opacity: 0.9; }
 .viz-branch {
-  opacity: 0.3;
+  opacity: 0.45;
   transform: translateY(3px);
   transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
 }
@@ -740,7 +743,7 @@ strong { font-weight: 650; }
 
 /* 3 — Upgrade donors: the donor climbs the tiers. Each hop is one step of
    the path, so the motion traces the shape rather than sliding across it. */
-.viz-steps { opacity: 0.55; transition: opacity 0.45s var(--ease); }
+.viz-steps { opacity: 0.7; transition: opacity 0.45s var(--ease); }
 .viz-climb { transition: transform 0.5s var(--ease); }
 .signal:hover .viz-steps { opacity: 0.9; }
 .signal:hover .viz-climb { animation: viz-climb 2.4s var(--ease) infinite; }
@@ -757,7 +760,7 @@ strong { font-weight: 650; }
    to span the card the way the other three do, and the direction is half the
    meaning: they come from outside. */
 .viz-rings circle {
-  opacity: 0.35;
+  opacity: 0.45;
   transform-box: fill-box;
   transform-origin: center;
   transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
@@ -777,14 +780,19 @@ strong { font-weight: 650; }
   opacity: 0.4;
 }
 
-.hero-footnote {
+/* The panel is its own white section now, below the hero and below the
+   15-minute button, rather than the hero's visual payload. Tracey did not
+   want the cards sitting on the navy. */
+.signals-section { background: var(--paper); }
+
+.signals-footnote {
   margin-top: clamp(1.5rem, 1.2rem + 1vw, 2rem);
   text-align: center;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: rgba(226, 232, 240, 0.68); /* 4.9:1 on the darkest hero stop */
+  color: var(--slate-500);
 }
 
 /* The eyebrow rule reads as a stray dash once the label wraps on narrow screens */
