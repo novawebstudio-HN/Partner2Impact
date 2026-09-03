@@ -282,16 +282,37 @@ triggers a fresh build and deploy. Switching Pages to the "GitHub Actions" sourc
 committing an explicit workflow would also add a manual re-run button, but that is a
 repository setting change, not a code change.
 
-## Wiring up the form
+## Booking, and the form that used to be here
 
-The form works with no backend: on submit it opens the visitor's mail client with the
-message pre-filled and addressed to `info@partner2impact.com`.
+`/contact` no longer asks questions. It embeds **Calendly's inline widget** for Tracey's
+event (`calendly.com/tracey-partner2impact/30min`) and the visitor picks a slot directly.
+Email sits under the calendar.
 
-**That fallback is no longer what runs.** `FORM_ENDPOINT` in `assets/js/main.js` now points
-at the deployed Apps Script web app, so submissions go to the sheet. The mailto path stays in
-place as the behaviour if the constant is ever emptied.
+**The fallback lives inside the widget div, not in `<noscript>`.** Calendly's script replaces
+those children when it loads; if it never loads — a corporate firewall, a privacy extension,
+an ad blocker, a bad network — the message stays on screen. In `<noscript>` it would only
+cover JavaScript being switched off, and a blocked script would leave the visitor staring at
+an empty 700px box. That is not hypothetical: it is exactly what happened the first time this
+was rendered in CI, where the container cannot reach `assets.calendly.com`.
 
-### Google Sheet via Apps Script (live)
+Three things follow from the switch, and none of them are code:
+
+1. **The Google Sheet stops receiving leads.** Nothing posts to it any more. The script is
+   still in `google-apps-script/Code.gs` and its deployment steps are still in its header
+   comment, so the form is recoverable, but as of this change no submission reaches the sheet
+   and no notification reaches `NOTIFY_EMAILS`.
+2. **Calendly is the site's first third-party script, and it sets cookies.** The site had no
+   external scripts at all before this. `/about` now carries a FAQ claiming GDPR and CCPA
+   compliance, and the site has no cookie notice or privacy page. Calendly's embed dialog has
+   a "Hide Cookie Banner" switch, which is left off, so their banner shows.
+3. **The event is 30 minutes; the site says 15.** Eleven strings across five pages promise a
+   "15-minute data health check up", and the booking page offers a 30 Minute Meeting. One of
+   the two has to move, and which one is Tracey's call.
+
+The form markup, its 150 lines of CSS, and its 130-line handler in `main.js` are all removed
+rather than left inert.
+
+## Google Sheet via Apps Script (live)
 
 `google-apps-script/Code.gs` is the backend. Paste it into the sheet's Apps Script editor and
 deploy it as a web app — the file's header comment carries the click-by-click steps. It

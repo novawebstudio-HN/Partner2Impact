@@ -1024,19 +1024,40 @@ strong { font-weight: 650; }
 }
 .cta-note { margin-top: 1.35rem; font-size: 0.88rem; color: rgba(226, 232, 240, 0.66); }
 
+
 /* --------------------------------------------------------------------------
-   Forms
+   Scheduler and contact details
+
+   The contact form is gone: booking happens in Calendly's own widget, so the
+   page hands the visitor straight to a calendar instead of asking questions
+   first. The wrapper only frames it — everything inside is Calendly's iframe,
+   which we do not style.
    -------------------------------------------------------------------------- */
 
-.contact-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: clamp(2rem, 1rem + 4vw, 4rem);
-  align-items: start;
+.scheduler {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
 }
-@media (max-width: 900px) { .contact-layout { grid-template-columns: 1fr; } }
+.scheduler-fallback {
+  margin: 0;
+  padding: clamp(1.75rem, 1.4rem + 1.5vw, 3rem);
+  text-align: center;
+  color: var(--slate-700);
+}
 
-.contact-details { display: grid; gap: 1.15rem; }
+/* Email and anything beside it sit under the calendar, centred, rather than
+   in a column next to it — the widget is 700px tall and would tower over
+   them. */
+.contact-rail {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(0.75rem, 0.6rem + 0.6vw, 1.15rem);
+  margin-top: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+}
 .contact-item {
   display: flex;
   gap: 0.9rem;
@@ -1059,88 +1080,6 @@ strong { font-weight: 650; }
 .contact-item .v { font-weight: 600; color: var(--ink); word-break: break-word; }
 .contact-item a { color: var(--ink); text-decoration: none; }
 .contact-item a:hover { color: var(--teal); }
-
-.form-card {
-  padding: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-}
-
-.field { display: grid; gap: 0.4rem; margin-bottom: 1.15rem; }
-.field label {
-  font-size: 0.86rem;
-  font-weight: 620;
-  letter-spacing: 0.02em;
-  color: var(--ink-800);
-}
-.field .req { color: var(--teal); }
-
-.field input,
-.field select,
-.field textarea {
-  width: 100%;
-  padding: 0.85rem 1rem;
-  border: 1px solid var(--slate-300);
-  border-radius: var(--radius-sm);
-  background: #fff;
-  font-family: inherit;
-  font-size: 1rem;
-  color: var(--ink);
-  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
-}
-.field textarea { min-height: 8.5rem; resize: vertical; }
-.field input:focus,
-.field select:focus,
-.field textarea:focus {
-  outline: none;
-  border-color: var(--navy);
-  box-shadow: 0 0 0 3px rgba(16, 47, 84, 0.13);
-}
-.field input[aria-invalid="true"],
-.field textarea[aria-invalid="true"] { border-color: #c0392b; }
-.field .error {
-  font-size: 0.82rem;
-  color: #c0392b;
-  min-height: 0;
-}
-
-.field-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
-  gap: 0 1rem;
-}
-
-.field--consent { margin-bottom: 1.35rem; }
-.form-consent {
-  display: flex;
-  gap: 0.6rem;
-  align-items: flex-start;
-  font-size: 0.86rem;
-  font-weight: 400;
-  color: var(--slate-500);
-  cursor: pointer;
-}
-.form-consent input {
-  width: auto;
-  margin-top: 0.25rem;
-  accent-color: var(--teal);
-}
-.form-consent input[aria-invalid="true"] { outline: 2px solid #c0392b; outline-offset: 2px; }
-
-.form-status {
-  margin-top: 1rem;
-  padding: 0.85rem 1rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.92rem;
-  display: none;
-}
-.form-status.is-visible { display: block; }
-.form-status.is-success { background: #edf7f0; border: 1px solid #bfe3ca; color: #1e6b3a; }
-.form-status.is-error { background: #fdeeec; border: 1px solid #f3c4bd; color: #a13226; }
-
-.hp-field { position: absolute; left: -9999px; opacity: 0; }
 
 /* --------------------------------------------------------------------------
    FAQ / accordion

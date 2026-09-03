@@ -52,7 +52,11 @@ compose in ways that are painful to predict and trivial to photograph.
 too wide makes the entire page scroll sideways on a phone. The report names the
 offending elements, not just the page.
 
-**3. Console and page errors.**
+**3. Console and page errors.** Network failures from a third-party host are dropped: the
+audit runs against a local server and cannot speak for someone else's CDN, and the Calendly
+embed on `/contact` fails to load in this container. Everything from the site's own origin
+still fails the run — a missing local script produces two errors and a non-zero exit, which
+is worth re-confirming if that filter is ever widened.
 
 ## Reading the output
 

@@ -75,130 +75,50 @@
   </section>
 
   <section class="section" id="audit">
-    <div class="shell contact-layout">
+    <div class="shell">
 
-      <div data-reveal>
-        <h2 style="font-size:clamp(1.5rem,1.2rem + 1.2vw,1.9rem)">What happens on the call</h2>
-        <p style="color:var(--slate-500);margin-bottom:1.5rem">
-          Fifteen minutes, no pitch deck. We reply to every request, usually within one
-          business day.
-        </p>
+      <div class="section-head section-head--center" data-reveal>
+        <p class="eyebrow" style="justify-content:center">Book a time</p>
+        <h2 style="font-size:clamp(1.6rem,1.3rem + 1.4vw,2.1rem)">What happens on the call</h2>
+        <p class="section-head__lead">Fifteen minutes, no pitch deck.</p>
+      </div>
 
-        <div class="contact-details">
-          <div class="contact-item">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
-            <div>
-              <span class="k">Email</span>
-              <span class="v"><a href="mailto:info@partner2impact.com">info@partner2impact.com</a></span>
-            </div>
-          </div>
+      <div class="scheduler" data-reveal>
+        <!-- Calendly inline widget begin -->
+        <!-- The fallback lives INSIDE the widget div on purpose. Calendly's script
+             replaces these children when it loads; if it never loads — blocked by a
+             corporate firewall, a privacy extension, an ad blocker, or a bad network —
+             this stays on screen. Put it in <noscript> instead and a blocked script
+             leaves the visitor staring at an empty 700px box. -->
+        <div class="calendly-inline-widget"
+             data-url="https://calendly.com/tracey-partner2impact/30min"
+             style="min-width:320px;height:700px;">
+          <p class="scheduler-fallback">
+            The booking calendar could not load. Write to
+            <a href="mailto:info@partner2impact.com">info@partner2impact.com</a> and we will
+            find a time.
+          </p>
         </div>
+        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+        <!-- Calendly inline widget end -->
+      </div>
 
-        <div class="pull" style="margin-top:1.75rem">
-          <blockquote style="font-size:clamp(1.05rem,0.95rem + 0.5vw,1.25rem)">
-            “Data is currency. But like any currency, it yields zero return if left sitting
-            in a vault.”
-          </blockquote>
-          <cite>David Galvin, Decision Intelligence Lead</cite>
+      <div class="contact-rail" data-reveal data-reveal-delay="80">
+        <div class="contact-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+          <div>
+            <span class="k">Email</span>
+            <span class="v"><a href="mailto:info@partner2impact.com">info@partner2impact.com</a></span>
+          </div>
         </div>
       </div>
 
-      <div data-reveal data-reveal-delay="100">
-        <form class="form-card" data-contact-form novalidate>
-          <h2 style="font-size:clamp(1.5rem,1.2rem + 1.2vw,1.9rem);margin-bottom:0.35em">Schedule my data audit</h2>
-          <p style="color:var(--slate-500);margin-bottom:1.75rem;font-size:0.95rem">
-            Fields marked <span class="req">*</span> are required.
-          </p>
-
-          <div class="field-row">
-            <div class="field">
-              <label for="name">First &amp; last name <span class="req">*</span></label>
-              <input type="text" id="name" name="name" autocomplete="name" required>
-              <span class="error" role="alert"></span>
-            </div>
-            <div class="field">
-              <label for="organization">Organization name <span class="req">*</span></label>
-              <input type="text" id="organization" name="organization" autocomplete="organization" required>
-              <span class="error" role="alert"></span>
-            </div>
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label for="email">Work email <span class="req">*</span></label>
-              <input type="email" id="email" name="email" autocomplete="email" required>
-              <span class="error" role="alert"></span>
-            </div>
-            <div class="field">
-              <label for="phone">Phone</label>
-              <input type="tel" id="phone" name="phone" autocomplete="tel">
-              <span class="error"></span>
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="crm">What CRM do you currently use?</label>
-            <select id="crm" name="crm">
-              <option value="">Select your database…</option>
-              <option>Raiser’s Edge</option>
-              <option>Salesforce</option>
-              <option>Bloomerang</option>
-              <option>DonorPerfect</option>
-              <option>Little Green Light</option>
-              <option>Neon CRM</option>
-              <option>Spreadsheets only</option>
-              <option>Other</option>
-            </select>
-            <span class="error"></span>
-          </div>
-
-          <div class="field">
-            <label for="challenge">Primary challenge</label>
-            <select id="challenge" name="challenge">
-              <option value="">Select a focus…</option>
-              <option>Lapsed donors</option>
-              <option>Major gift pipeline</option>
-              <option>Prospect research</option>
-              <option>Strategic planning</option>
-              <option>Donor retention</option>
-              <option>Not sure yet</option>
-            </select>
-            <span class="error"></span>
-          </div>
-
-          <div class="field">
-            <label for="message">Anything else we should know?</label>
-            <textarea id="message" name="message"
-              placeholder="Roughly how many donor records do you have, and what would a good outcome look like twelve months from now?"></textarea>
-            <span class="error"></span>
-          </div>
-
-          <!-- Honeypot: hidden from people, tempting to bots -->
-          <div class="hp-field" aria-hidden="true">
-            <label for="company_website">Leave this field empty</label>
-            <input type="text" id="company_website" name="company_website" tabindex="-1" autocomplete="off">
-          </div>
-
-          <div class="field field--consent">
-            <label class="form-consent" for="consent">
-              <input type="checkbox" id="consent" name="consent" required>
-              <span>I agree to be contacted by Partner2Impact about my request. <span class="req">*</span></span>
-            </label>
-            <span class="error" role="alert"></span>
-          </div>
-
-          <button class="btn btn--amber btn--block" type="submit">
-            Schedule my data audit <span class="arrow" aria-hidden="true">→</span>
-          </button>
-
-          <p class="form-status" role="status" aria-live="polite"></p>
-
-          <p style="margin-top:1.15rem;font-size:0.85rem;color:var(--slate-500)">
-            Prefer email? Write to
-            <a href="mailto:info@partner2impact.com">info@partner2impact.com</a>.
-            We never share your data or your donor records.
-          </p>
-        </form>
+      <div class="pull" style="margin-top:2rem;max-width:44rem;margin-inline:auto" data-reveal>
+        <blockquote style="font-size:clamp(1.05rem,0.95rem + 0.5vw,1.25rem)">
+          “Data is currency. But like any currency, it yields zero return if left sitting
+          in a vault.”
+        </blockquote>
+        <cite>David Galvin, Decision Intelligence Lead</cite>
       </div>
 
     </div>
