@@ -77,33 +77,37 @@ on the navy. Moving them out gives the hero a single job and lets the panel run 
 `--line` borders, `--ink` headings, and the accent pair steps down from the dark-background
 `--teal-400` / `--amber-400` to `--teal` / `--amber`.
 
-That accent split is worth knowing before touching it. `--accent` draws the graphics and
-`--accent-ink` sets the chip label, and they differ because the hue that reads well as a 2px
-line is not always the one that clears AA as 0.85rem text over a 10% wash of itself. Every
-resting opacity in the drawings also came up a step: a pale mark washes out against white
-faster than it does against navy.
+That accent split is worth knowing before touching it. `--accent` fills the icon and
+`--accent-ink` sets the kicker, and they differ because the hue that carries a 3rem icon tile
+is not the one that clears AA as 0.7rem text over a 10% wash of itself.
 
-The signals are a rebuild of Tracey's "Fusion of Predictive Data and Strategy" graphic. Her
-wording is kept verbatim — major gift prospects, lapse risk, upgrade donors, new prospects,
-plus the "empowering nonprofit fundraising" footnote. The AI-generated artwork is not used.
+The four items are Tracey's, from her "Fusion of Predictive Data and Strategy" graphic. Her
+wording is verbatim — major gift prospects, lapse risk, upgrade donors, new prospects. The
+AI-generated artwork is not used.
 
-Built from CSS and inline SVG rather than an image: crisp at any size, no image request,
-reflows to one column on mobile, and the text is real text (selectable, translatable,
-indexable). Lapse risk is the one amber card, matching what amber means everywhere else on
-the site.
+**There are no charts in these cards, and that is the finished answer rather than a gap.**
+Two rounds tried to draw the signals: first the same five-bar chart on all four, then a
+different drawing per card — a scatter of donors, a declining line with a recovery branch,
+a climb between giving tiers, prospects converging on a mission. Tracey rejected both. The
+second round is the more useful lesson: the drawings were individually defensible and still
+wrong, because each one needed a caption to be understood. A graphic that has to be explained
+is not carrying meaning, it is occupying space, and four of them side by side read as filler
+no matter how carefully each is composed. We have no real figures to plot here, and inventing
+some to fill the cards would be worse than leaving them out.
 
-**Each card draws its own signal.** The first version gave all four the same five-bar chart,
-which was decoration wearing the costume of data — identical in shape across four cards whose
-entire point is that they detect four different things. Each now draws
-the behaviour it names: a field of donors where the high-capacity few stand out, a giving line
-that falls and the dashed intervention that bends it back up, a climb between giving tiers,
-and supporters converging from outside the file onto the mission.
+So the card is icon, category, title, sentence — and nothing else. The icon grew to 3rem and
+leads the card instead of floating in a corner; the category left its pill and became a
+kicker, which drops a whole visual layer without dropping any of Tracey's words. Hover fills
+the icon solid with the accent and draws a hairline across the top. That is the entire
+interaction, and it is enough: the cards are being picked out, not performing.
 
-Hover animates the drawing and nothing else. No text, no meaning, and nothing a pointer-less
-visitor cannot reach lives behind it — the resting state is the complete picture, so touch and
-`prefers-reduced-motion` lose the reward for looking but never the content. The drawings
-inherit each card's `--accent` through `currentColor`, so the amber card needs no separate
-artwork.
+The section also gained the headline it never had. The two uppercase lines that used to
+bracket the cards were captions on Tracey's slide, and on a web page they read as orphaned
+text. "Empowering nonprofit fundraising" is now the section eyebrow. "Fusion of predictive
+data and strategy" is gone: with a real headline above the cards, a second brand line below
+them is one too many. **The headline itself — "Four things your database already knows" — is
+new copy and needs Tracey's sign-off.** It makes no claim the site does not already make, but
+it is the only line in this section she did not write.
 
 The donor-intelligence dashboard now lives on `tool.html`, where a product view belongs,
 with a caption stating that the figures are illustrative.
