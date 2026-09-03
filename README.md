@@ -287,8 +287,23 @@ repository setting change, not a code change.
 ## Booking, and the form that used to be here
 
 `/contact` no longer asks questions. It embeds **Calendly's inline widget** for Tracey's
-event (`calendly.com/tracey-partner2impact/30min`) and the visitor picks a slot directly.
-Email sits under the calendar.
+event (`calendly.com/tracey-partner2impact/30min` — the slug still reads `30min` because the
+event's duration was edited rather than replaced, which keeps the slug) and the visitor picks
+a slot directly. Email sits under the calendar.
+
+**A Calendly badge also floats in the corner of every other page.** It is injected from
+`main.js` on window load rather than pasted into eight files: Calendly's stylesheet is
+render-blocking, so keeping it out of `<head>` means the badge can never delay the page it
+sits on. Calendly's own snippet assigns `window.onload` directly, which would clobber
+anything else that wanted it, so that is not used either. `/contact` is skipped — a floating
+button over an inline calendar is silly.
+
+**The fallback message has to be switched off when the iframe arrives.** Calendly *appends*
+its iframe to the widget div rather than replacing what is inside it, so the first version
+shipped a page that said "the booking calendar could not load" directly above a working
+calendar. `.calendly-inline-widget:has(iframe) .scheduler-fallback { display: none }` fixes
+it reactively — no timer to guess at, and if the iframe never arrives the message simply
+stays.
 
 **The fallback lives inside the widget div, not in `<noscript>`.** Calendly's script replaces
 those children when it loads; if it never loads — a corporate firewall, a privacy extension,
@@ -303,15 +318,17 @@ Three things follow from the switch, and none of them are code:
    still in `google-apps-script/Code.gs` and its deployment steps are still in its header
    comment, so the form is recoverable, but as of this change no submission reaches the sheet
    and no notification reaches `NOTIFY_EMAILS`.
-2. **Calendly is the site's first third-party script, and it sets cookies.** The site had no
-   external scripts at all before this. `/about` now carries a FAQ claiming GDPR and CCPA
-   compliance, and the site has no cookie notice or privacy page. Calendly's embed dialog has
-   a "Hide Cookie Banner" switch, which is left off, so their banner shows.
-3. **Event length.** The site promises a "15-minute data health check up" in eleven strings
-   across five pages. Tracey is changing the Calendly event to 15 minutes to match, so the
-   copy stays. If that means a **new** event rather than an edit to the existing one, its
-   slug changes and `data-url` in `contact.html` has to be updated with it — editing an
-   event's duration keeps the slug, creating a replacement does not.
+2. **Calendly is the site's only third-party script, and the badge puts it on every page.**
+   The site had no external scripts at all before this, and the badge widened the exposure
+   from one page to all of them. `/privacy` says so plainly rather than burying it — the
+   summary, the booking section and the cookies section were all rewritten when the badge
+   went in, because each had said Calendly loaded only on `/contact`. Calendly's "Hide Cookie
+   Banner" switch is left off, so their banner shows.
+3. **Event length — resolved.** The site promises a "15-minute data health check up", and
+   Tracey changed the Calendly event to 15 minutes to match. She edited the existing event
+   rather than creating a new one, so the slug stayed `30min` and no URL had to change. The
+   slug is now cosmetically wrong and visible to nobody; renaming it later would break the
+   embed, so leave it.
 
 The form markup, its 150 lines of CSS, and its 130-line handler in `main.js` are all removed
 rather than left inert.
