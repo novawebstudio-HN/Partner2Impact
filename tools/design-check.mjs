@@ -30,7 +30,7 @@ import { existsSync } from 'node:fs';
 import { extname, join, resolve } from 'node:path';
 
 const ROOT = resolve(import.meta.dirname, '..');
-const PAGES = ['index', 'tool', 'consulting', 'hyper-targeting', 'about', 'contact', '404'];
+const PAGES = ['index', 'tool', 'consulting', 'hyper-targeting', 'about', 'contact', 'privacy', 'terms', '404'];
 const WIDTHS = [360, 390, 768, 1440];
 const SHOTS = process.argv.includes('--shots');
 const PORT = Number(process.argv[process.argv.indexOf('--port') + 1]) || 8123;
@@ -80,7 +80,27 @@ if (SHOTS) await mkdir(join(ROOT, 'tools/shots'), { recursive: true });
 
 for (const name of PAGES) {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
-  page.on('console', m => { if (m.type() === 'error') errors.push(`${name}: ${m.text()}`); });
+  /* A third-party script that will not load is not this site's bug, and the
+     audit runs against a local server that cannot speak for someone else's
+     CDN. Network failures naming an external host are dropped; everything
+     from our own origin, and every page error, still counts. */
+  const ownOrigin = url => /^https?:\/\/(localhost|127\.0\.0\.1)/.test(url || '');
+
+  page.on('console', m => {
+    if (m.type() !== 'error') return;
+    const text = m.text();
+    /* Chromium leaves the URL out of the message text for a failed subresource
+       and puts it in the location instead, so the host has to come from there. */
+    const isNetwork = /Failed to load resource|net::ERR_/.test(text);
+    if (isNetwork && !ownOrigin(m.location()?.url)) return;
+    errors.push(`${name}: ${text}${isNetwork ? ` (${m.location()?.url})` : ''}`);
+  });
+  page.on('requestfailed', r => {
+    const url = r.url();
+    if (/^https?:\/\/(localhost|127\.0\.0\.1)/.test(url)) {
+      errors.push(`${name}: request failed ${url} (${r.failure()?.errorText})`);
+    }
+  });
   page.on('pageerror', e => errors.push(`${name} PAGEERROR: ${e.message}`));
   await page.goto(`${base}/${name}.html`, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);

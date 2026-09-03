@@ -29,7 +29,9 @@ approved copy in that brief.
 | `consulting.html` | `/consulting` | Consulting & Strategy — campaigns, alignment, pipeline growth |
 | `hyper-targeting.html` | `/hyper-targeting` | Hyper-targeted outreach — three capabilities, in Tracey's wording |
 | `about.html` | `/about` | Tracey & David, why the partnership, track record, FAQ |
-| `contact.html` | `/contact` | 15-minute data health check up request form |
+| `contact.html` | `/contact` | Calendly booking widget, email, quote |
+| `privacy.html` | `/privacy` | Privacy Policy |
+| `terms.html` | `/terms` | Terms and Conditions |
 | `404.html` | — | Not-found page |
 
 **Clean URLs.** Every internal link, canonical and sitemap entry uses the extensionless
@@ -67,19 +69,47 @@ to nonprofit-sector organizations, as a track-record block inside `about.html`.
 
 ## The hero and the four signals
 
-The hero is a single dark section: headline, actions, and Tracey's four signals underneath.
-The signals are the hero's visual payload, so there is **one** headline at the top of the
-page rather than two competing ones.
+The hero is a single dark section and holds one idea: logo, headline, lede, and the
+15-minute button. Nothing else.
 
-The signals are a rebuild of Tracey's "Fusion of Predictive Data and Strategy" graphic. Her
-wording is kept verbatim — major gift prospects, lapse risk, upgrade donors, new prospects,
-plus the "empowering nonprofit fundraising" footnote. The AI-generated artwork is not used.
+**The signals are their own white section, directly below it.** They started inside the hero
+as its visual payload, and Tracey turned that down — not the cards themselves but the cards
+on the navy. Moving them out gives the hero a single job and lets the panel run navy → white
+→ sand down the page. Everything about the card inverts with the move: white surfaces on
+`--line` borders, `--ink` headings, and the accent pair steps down from the dark-background
+`--teal-400` / `--amber-400` to `--teal` / `--amber`.
 
-Built from CSS and inline SVG rather than an image: crisp at any size, no image request,
-reflows to one column on mobile, and the text is real text (selectable, translatable,
-indexable). Each card carries a five-bar mini chart — rising for the three opportunity
-signals, falling for lapse risk, because that is the shape of the thing being described.
-Lapse risk is also the one amber card, matching what amber means everywhere else on the site.
+That accent split is worth knowing before touching it. `--accent` fills the icon and
+`--accent-ink` sets the kicker, and they differ because the hue that carries a 3rem icon tile
+is not the one that clears AA as 0.7rem text over a 10% wash of itself.
+
+The four items are Tracey's, from her "Fusion of Predictive Data and Strategy" graphic. Her
+wording is verbatim — major gift prospects, lapse risk, upgrade donors, new prospects. The
+AI-generated artwork is not used.
+
+**There are no charts in these cards, and that is the finished answer rather than a gap.**
+Two rounds tried to draw the signals: first the same five-bar chart on all four, then a
+different drawing per card — a scatter of donors, a declining line with a recovery branch,
+a climb between giving tiers, prospects converging on a mission. Tracey rejected both. The
+second round is the more useful lesson: the drawings were individually defensible and still
+wrong, because each one needed a caption to be understood. A graphic that has to be explained
+is not carrying meaning, it is occupying space, and four of them side by side read as filler
+no matter how carefully each is composed. We have no real figures to plot here, and inventing
+some to fill the cards would be worse than leaving them out.
+
+So the card is icon, category, title, sentence — and nothing else. The icon grew to 3rem and
+leads the card instead of floating in a corner; the category left its pill and became a
+kicker, which drops a whole visual layer without dropping any of Tracey's words. Hover fills
+the icon solid with the accent and draws a hairline across the top. That is the entire
+interaction, and it is enough: the cards are being picked out, not performing.
+
+The section also gained the headline it never had. The two uppercase lines that used to
+bracket the cards were captions on Tracey's slide, and on a web page they read as orphaned
+text. "Empowering nonprofit fundraising" is now the section eyebrow. "Fusion of predictive
+data and strategy" is gone: with a real headline above the cards, a second brand line below
+them is one too many. **The headline itself — "Four things your database already knows" — is
+new copy and needs Tracey's sign-off.** It makes no claim the site does not already make, but
+it is the only line in this section she did not write.
 
 The donor-intelligence dashboard now lives on `tool.html`, where a product view belongs,
 with a caption stating that the figures are illustrative.
@@ -254,16 +284,39 @@ triggers a fresh build and deploy. Switching Pages to the "GitHub Actions" sourc
 committing an explicit workflow would also add a manual re-run button, but that is a
 repository setting change, not a code change.
 
-## Wiring up the form
+## Booking, and the form that used to be here
 
-The form works with no backend: on submit it opens the visitor's mail client with the
-message pre-filled and addressed to `info@partner2impact.com`.
+`/contact` no longer asks questions. It embeds **Calendly's inline widget** for Tracey's
+event (`calendly.com/tracey-partner2impact/30min`) and the visitor picks a slot directly.
+Email sits under the calendar.
 
-**That fallback is no longer what runs.** `FORM_ENDPOINT` in `assets/js/main.js` now points
-at the deployed Apps Script web app, so submissions go to the sheet. The mailto path stays in
-place as the behaviour if the constant is ever emptied.
+**The fallback lives inside the widget div, not in `<noscript>`.** Calendly's script replaces
+those children when it loads; if it never loads — a corporate firewall, a privacy extension,
+an ad blocker, a bad network — the message stays on screen. In `<noscript>` it would only
+cover JavaScript being switched off, and a blocked script would leave the visitor staring at
+an empty 700px box. That is not hypothetical: it is exactly what happened the first time this
+was rendered in CI, where the container cannot reach `assets.calendly.com`.
 
-### Google Sheet via Apps Script (live)
+Three things follow from the switch, and none of them are code:
+
+1. **The Google Sheet stops receiving leads.** Nothing posts to it any more. The script is
+   still in `google-apps-script/Code.gs` and its deployment steps are still in its header
+   comment, so the form is recoverable, but as of this change no submission reaches the sheet
+   and no notification reaches `NOTIFY_EMAILS`.
+2. **Calendly is the site's first third-party script, and it sets cookies.** The site had no
+   external scripts at all before this. `/about` now carries a FAQ claiming GDPR and CCPA
+   compliance, and the site has no cookie notice or privacy page. Calendly's embed dialog has
+   a "Hide Cookie Banner" switch, which is left off, so their banner shows.
+3. **Event length.** The site promises a "15-minute data health check up" in eleven strings
+   across five pages. Tracey is changing the Calendly event to 15 minutes to match, so the
+   copy stays. If that means a **new** event rather than an edit to the existing one, its
+   slug changes and `data-url` in `contact.html` has to be updated with it — editing an
+   event's duration keeps the slug, creating a replacement does not.
+
+The form markup, its 150 lines of CSS, and its 130-line handler in `main.js` are all removed
+rather than left inert.
+
+## Google Sheet via Apps Script (live)
 
 `google-apps-script/Code.gs` is the backend. Paste it into the sheet's Apps Script editor and
 deploy it as a web app — the file's header comment carries the click-by-click steps. It
@@ -409,6 +462,38 @@ The homepage carries a three-card teaser of the same content at `#reach`, placed
 Extract/Enrich/Execute — mine the data first, then go out and reach people. The hero lede
 changed from "predictive data intelligence" to "predictive analytics and hyper-targeted
 advertising", which was the specific edit she asked for.
+
+## The legal pages
+
+`/privacy` and `/terms`, linked from the footer of every page and listed in the sitemap.
+
+They exist because the site now loads Calendly, which is its **first third-party script and
+the only thing on the site that sets a cookie** — under an `/about` FAQ that claims GDPR and
+CCPA compliance.
+
+**The privacy policy is specific rather than boilerplate, and that was the point.** Before
+writing it the site was audited for what it actually does, and the answer is unusually clean:
+no analytics, no tag manager, no advertising or tracking pixels, no cookies of its own, no
+`localStorage`, and self-hosted fonts, so loading a page does not tell a font network you
+were here. The only external request on the whole site is Calendly's widget, and only on
+`/contact`. A generic policy would have claimed cookie categories this site does not have and
+would have been wrong in the organization's favour, which is the worst direction to be wrong
+in. If analytics are ever added, that section stops being true and has to change with them.
+
+The policy also covers the part that matters most to a nonprofit reading it: the donor data
+handled under an engagement, where **the client is the controller and Partner2Impact is the
+processor**, working on documented instructions under an agreement signed before access.
+
+### These are drafts, not legal advice
+
+They were written for this site by reading what it does, not by a lawyer. Three things are
+deliberately absent rather than invented, and all three want a qualified review:
+
+1. **No registered legal entity name.** The pages say "Partner2Impact", the trading name used
+   everywhere else on the site.
+2. **No postal address.** GDPR expects the controller's contact details; email alone is thin.
+3. **No governing-law clause in the terms.** The jurisdiction was not known and guessing it
+   from the client list would have been a guess in a clause that exists to remove ambiguity.
 
 ## Open items before launch
 
