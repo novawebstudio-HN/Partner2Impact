@@ -140,39 +140,58 @@
   }
 
   /* ----------------------------------------------------------------------
-     Calendly badge
+     Calendly
 
-     A booking button that stays in the corner as the visitor moves through
-     the site. Skipped on /contact, where the calendar is already inline and
-     a floating button over it would be silly.
+     One constant for the whole site. The booking address has already moved
+     once (Tracey's personal account to the Generedge account that pays for
+     Calendly and Zoom) and event slugs change whenever an event is renamed,
+     so it lives here and nowhere else — /contact carries the widget div with
+     no data-url of its own and gets filled in below.
 
-     Loaded on window load, and injected rather than written into all eight
-     pages: the stylesheet is Calendly's and render-blocking, so keeping it
-     out of <head> means the badge can never delay the page it sits on.
-     Calendly's own snippet assigns window.onload directly, which would
-     clobber anything else that wanted it.
+     Two shapes, depending on the page:
+       - /contact has the calendar inline. It is the page's main content, so
+         it loads as soon as this script runs.
+       - Every other page gets the floating badge, on window load, so a
+         third-party script and its render-blocking stylesheet can never
+         delay the page they sit on. Calendly's own snippet puts that
+         stylesheet in <head> and assigns window.onload directly, which would
+         clobber anything else that wanted it; neither is used here.
 
-     Note the privacy cost, which is recorded in /privacy: this loads
-     Calendly, and its cookies, on every page rather than only on /contact.
+     Privacy cost, recorded in /privacy: the badge means Calendly, and its
+     cookies, load on every page rather than only on /contact.
 
      The contact form was removed with the switch to booking. Its Apps Script
      backend is still in google-apps-script/Code.gs and the README still
      carries the wiring, in case a form is ever wanted again.
      ---------------------------------------------------------------------- */
 
-  var CALENDLY_URL = 'https://calendly.com/tracey-partner2impact/30min';
+  var CALENDLY_URL = 'https://calendly.com/tracey-generedge/new-meeting';
+  var CALENDLY_JS = 'https://assets.calendly.com/assets/external/widget.js';
+  var CALENDLY_CSS = 'https://assets.calendly.com/assets/external/widget.css';
 
-  if (!document.querySelector('.calendly-inline-widget')) {
+  var loadCalendly = function (onReady) {
+    var js = document.createElement('script');
+    js.src = CALENDLY_JS;
+    js.async = true;
+    if (onReady) js.onload = onReady;
+    document.head.appendChild(js);
+  };
+
+  var inlineWidget = document.querySelector('.calendly-inline-widget');
+
+  if (inlineWidget) {
+    /* Calendly's script scans for .calendly-inline-widget[data-url] when it
+       loads, so the address has to be on the element before the script is. */
+    inlineWidget.setAttribute('data-url', CALENDLY_URL);
+    loadCalendly();
+  } else {
     var loadBadge = function () {
       var css = document.createElement('link');
       css.rel = 'stylesheet';
-      css.href = 'https://assets.calendly.com/assets/external/widget.css';
+      css.href = CALENDLY_CSS;
       document.head.appendChild(css);
 
-      var js = document.createElement('script');
-      js.src = 'https://assets.calendly.com/assets/external/widget.js';
-      js.async = true;
-      js.onload = function () {
+      loadCalendly(function () {
         if (!window.Calendly) return;
         window.Calendly.initBadgeWidget({
           url: CALENDLY_URL,
@@ -181,8 +200,7 @@
           textColor: '#ffffff',
           branding: true
         });
-      };
-      document.head.appendChild(js);
+      });
     };
 
     if (document.readyState === 'complete') loadBadge();

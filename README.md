@@ -286,17 +286,23 @@ repository setting change, not a code change.
 
 ## Booking, and the form that used to be here
 
-`/contact` no longer asks questions. It embeds **Calendly's inline widget** for Tracey's
-event (`calendly.com/tracey-partner2impact/30min` — the slug still reads `30min` because the
-event's duration was edited rather than replaced, which keeps the slug) and the visitor picks
-a slot directly. Email sits under the calendar.
+`/contact` no longer asks questions. It embeds **Calendly's inline widget** and the visitor
+picks a slot directly. Email sits under the calendar. **A Calendly badge floats in the corner
+of every other page**; `/contact` is skipped, since a floating button over an inline calendar
+is silly.
 
-**A Calendly badge also floats in the corner of every other page.** It is injected from
-`main.js` on window load rather than pasted into eight files: Calendly's stylesheet is
-render-blocking, so keeping it out of `<head>` means the badge can never delay the page it
-sits on. Calendly's own snippet assigns `window.onload` directly, which would clobber
-anything else that wanted it, so that is not used either. `/contact` is skipped — a floating
-button over an inline calendar is silly.
+**`CALENDLY_URL` in `main.js` is the only place the booking address appears.** The widget div
+on `/contact` ships with no `data-url` and no script tag of its own — `main.js` sets the
+attribute before appending Calendly's script, which is what that script scans for. This is
+worth the small indirection because the address is not stable: it has already moved from
+Tracey's personal Calendly to the Generedge account that pays for Calendly and Zoom, and a
+slug changes whenever an event is renamed. Two copies would have drifted on the first move.
+
+Neither shape uses Calendly's copy-paste snippet. Their stylesheet is render-blocking and
+their snippet puts it in `<head>`, so the badge loads on window load instead and can never
+delay the page it sits on; and their snippet assigns `window.onload` directly, which would
+clobber anything else that wanted it. The inline calendar is the contact page's main content,
+so that one loads as soon as `main.js` runs.
 
 **The fallback message has to be switched off when the iframe arrives.** Calendly *appends*
 its iframe to the widget div rather than replacing what is inside it, so the first version
@@ -324,11 +330,10 @@ Three things follow from the switch, and none of them are code:
    summary, the booking section and the cookies section were all rewritten when the badge
    went in, because each had said Calendly loaded only on `/contact`. Calendly's "Hide Cookie
    Banner" switch is left off, so their banner shows.
-3. **Event length — resolved.** The site promises a "15-minute data health check up", and
-   Tracey changed the Calendly event to 15 minutes to match. She edited the existing event
-   rather than creating a new one, so the slug stayed `30min` and no URL had to change. The
-   slug is now cosmetically wrong and visible to nobody; renaming it later would break the
-   embed, so leave it.
+3. **Event length — resolved.** The site promises a "15-minute data health check up" and the
+   Calendly event is 15 minutes. The current slug is `new-meeting`, Calendly's default for a
+   freshly created event; it is invisible to visitors, but renaming the event in Calendly
+   changes it, and `CALENDLY_URL` has to change with it.
 
 The form markup, its 150 lines of CSS, and its 130-line handler in `main.js` are all removed
 rather than left inert.

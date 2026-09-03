@@ -84,23 +84,24 @@
       </div>
 
       <div class="scheduler" data-reveal>
-        <!-- Calendly inline widget begin -->
-        <!-- The fallback lives INSIDE the widget div on purpose. Calendly's script
-             replaces these children when it loads; if it never loads — blocked by a
-             corporate firewall, a privacy extension, an ad blocker, or a bad network —
-             this stays on screen. Put it in <noscript> instead and a blocked script
-             leaves the visitor staring at an empty 700px box. -->
-        <div class="calendly-inline-widget"
-             data-url="https://calendly.com/tracey-partner2impact/30min"
-             style="min-width:320px;height:700px;">
+        <!-- Calendly inline widget.
+
+             No data-url and no script tag here on purpose: main.js owns the booking
+             URL for the whole site and fills this in, so the address lives in exactly
+             one place instead of two that can drift apart.
+
+             The fallback sits INSIDE the widget div, because Calendly appends its
+             iframe rather than replacing what it finds. If the script never arrives —
+             a corporate firewall, a privacy extension, an ad blocker, a bad network,
+             JavaScript switched off — this message is what stays on screen instead of
+             an empty 700px box. CSS hides it the moment the iframe turns up. -->
+        <div class="calendly-inline-widget" style="min-width:320px;height:700px;">
           <p class="scheduler-fallback">
             The booking calendar could not load. Write to
             <a href="mailto:info@partner2impact.com">info@partner2impact.com</a> and we will
             find a time.
           </p>
         </div>
-        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-        <!-- Calendly inline widget end -->
       </div>
 
       <div class="contact-rail" data-reveal data-reveal-delay="80">
