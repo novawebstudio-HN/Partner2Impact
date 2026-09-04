@@ -112,12 +112,31 @@ Sits after the closing CTA, on the homepage. Booking a call is the page's primar
 mailing list is the lighter one, for the visitor who is not ready to put time in a calendar,
 so putting it first would have it competing with the thing the page is for.
 
-**No provider is wired up yet.** `MAILING_LIST_ENDPOINT` in `main.js` is empty, and an empty
-endpoint falls back to opening the visitor's mail client with the subscription addressed and
-ready. Clumsier than an inline confirmation, but the address reaches a person instead of
-disappearing — a signup form that silently discards emails is worse than no form. Paste the
-provider's endpoint into that constant and the fetch path takes over with nothing else to
-change.
+**Addresses land in a "Mailing list" tab of the same Google Sheet the contact form used to
+write to.** No new service was needed: the Apps Script was still deployed and still
+answering, so it gained a branch instead. A signup posts `type=mailing-list`, which routes
+past the contact form's name-and-email validation to `subscribe()`, and that writes
+timestamp, address and source page. Re-submitting an address does not add a second row.
+
+**This is a holding place, and it is single opt-in.** No confirmation email, no unsubscribe
+link. Fine for collecting addresses, not fine for sending campaigns from — whatever tool
+replaces it should re-confirm these addresses rather than import them as confirmed
+subscribers. `/privacy` says so to the visitor as well, and offers removal by email.
+
+Two things keep a bad day from losing an address:
+
+- **Any failure falls back to the mail client.** Offline, an Apps Script version that predates
+  the mailing-list branch, a revoked deployment — all land in `byEmail()`, which opens the
+  visitor's mail client with the subscription ready. Emptying `MAILING_LIST_ENDPOINT` does the
+  same thing deliberately.
+- **An eight-second abort.** A request that hangs rather than fails was measured leaving the
+  button stuck on "Joining…" for about fifteen seconds. Eight is well past a healthy round
+  trip and well short of a visitor giving up; the timeout was verified firing at 8.1s and
+  recovering into the mail-client fallback.
+
+**Changing `Code.gs` needs a re-deploy to take effect.** In the Apps Script editor, Deploy →
+Manage deployments → edit the existing deployment → New version. Deploying a *new*
+deployment instead mints a fresh `/exec` URL and leaves the site pointing at the old one.
 
 ## Logo
 
