@@ -162,11 +162,37 @@ for (const name of PAGES) {
           fg: fg.slice(0, 3), alpha: fg.length === 4 ? fg[3] : 1,
           x: Math.round(r.left + scrollX), y: Math.round(r.top + scrollY),
           w: Math.round(r.width), h: Math.round(r.height),
-          large: size >= 24 || (size >= 18.66 && weight >= 700)
+          large: size >= 24 || (size >= 18.66 && weight >= 700),
+          /* Text inside a fixed overlay is measured against that overlay, so
+             it must not have the overlay's own area filtered out below. */
+          inFixed: !!el.closest('.book-fab')
         });
       });
     return out;
   });
+
+  /* Rects of every position:fixed overlay, in document coordinates. A floating
+     control sits over the page rather than in it, so a sample point that lands
+     on one is measuring the overlay's colour, not the backdrop of the text it
+     happens to cover. The floating booking link overlapped two pixels of a
+     paragraph on /consulting and reported a 1.29:1 failure that no reader
+     would ever see. Dropping those points is narrower than hiding the overlay
+     for the pass, which would leave the overlay's own label unmeasured. */
+  const fixedRects = await page.evaluate(() =>
+    [...document.querySelectorAll('body *')]
+      /* offsetParent is null for every position:fixed element by spec, so it
+         cannot be the visibility test here — it would filter out the very
+         elements this is collecting. */
+      .filter(el => {
+        const cs = getComputedStyle(el);
+        return cs.position === 'fixed' && cs.display !== 'none' &&
+               cs.visibility !== 'hidden' && parseFloat(cs.opacity) > 0;
+      })
+      .map(el => {
+        const r = el.getBoundingClientRect();
+        return { x: r.left + scrollX, y: r.top + scrollY, w: r.width, h: r.height };
+      })
+      .filter(r => r.w > 0 && r.h > 0));
 
   await page.evaluate(() => {
     const s = document.createElement('style');
@@ -179,7 +205,7 @@ for (const name of PAGES) {
 
   /* Sampling happens in the page via canvas so the script needs no image
      decoder of its own. */
-  const sampled = await page.evaluate(async ({ shot, items }) => {
+  const sampled = await page.evaluate(async ({ shot, items, fixedRects }) => {
     const img = new Image();
     img.src = 'data:image/png;base64,' + shot;
     await img.decode();
@@ -187,16 +213,20 @@ for (const name of PAGES) {
     c.width = img.width; c.height = img.height;
     const ctx = c.getContext('2d', { willReadFrequently: true });
     ctx.drawImage(img, 0, 0);
+    const covered = (x, y) => fixedRects.some(r =>
+      x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h);
+
     return items.map(it => {
       const pts = [];
       for (const fx of [0.12, 0.5, 0.88]) for (const fy of [0.25, 0.5, 0.75]) {
         const x = Math.min(img.width - 1, Math.max(0, Math.round(it.x + it.w * fx)));
         const y = Math.min(img.height - 1, Math.max(0, Math.round(it.y + it.h * fy)));
+        if (!it.inFixed && covered(x, y)) continue;
         pts.push([...ctx.getImageData(x, y, 1, 1).data].slice(0, 3));
       }
       return { ...it, pts };
     });
-  }, { shot, items });
+  }, { shot, items, fixedRects });
 
   for (const it of sampled) {
     const need = it.large ? 3 : 4.5;

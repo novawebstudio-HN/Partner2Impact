@@ -140,25 +140,63 @@
   }
 
   /* ----------------------------------------------------------------------
+     Orbital compass
+
+     Turns the ring a quarter at a time; CSS counter-rotates each card so the
+     text stays upright while it travels. Whichever slot lands at the top is
+     the active one — after k quarter turns that is the card whose index makes
+     (index + k) % 4 come out zero.
+
+     It pauses on hover and on focus. A carousel that keeps moving while
+     someone is reading it is worse than one that does not move at all, and
+     the pause is what makes an auto-rotating panel acceptable rather than
+     merely fashionable. prefers-reduced-motion stops it entirely, leaving the
+     diamond static with the first card active.
+     ---------------------------------------------------------------------- */
+  var orbit = document.querySelector('[data-orbit]');
+  if (orbit) {
+    var slots = Array.prototype.slice.call(orbit.querySelectorAll('.orbit-slot'));
+    var turns = 0;
+
+    var mark = function () {
+      slots.forEach(function (slot, i) {
+        slot.classList.toggle('is-active', (i + turns) % slots.length === 0);
+      });
+    };
+    mark();
+
+    if (!reduceMotion && slots.length) {
+      var held = false;
+      setInterval(function () {
+        if (held || document.hidden) return;
+        turns += 1;
+        orbit.style.setProperty('--rot', turns * 90 + 'deg');
+        mark();
+      }, 3800);
+
+      ['mouseenter', 'focusin'].forEach(function (evt) {
+        orbit.addEventListener(evt, function () { held = true; });
+      });
+      ['mouseleave', 'focusout'].forEach(function (evt) {
+        orbit.addEventListener(evt, function () { held = false; });
+      });
+    }
+  }
+
+  /* ----------------------------------------------------------------------
      Calendly
 
-     One constant for the whole site. The booking address has already moved
-     once (Tracey's personal account to the Generedge account that pays for
-     Calendly and Zoom) and event slugs change whenever an event is renamed,
-     so it lives here and nowhere else — /contact carries the widget div with
-     no data-url of its own and gets filled in below.
+     Only /contact loads Calendly. Every other page carries .book-fab, a plain
+     link to the booking page — no third-party script, no cookies, nothing to
+     consent to on a page someone is only reading. The floating Calendly badge
+     that used to sit there cost a script and its cookies on all eight pages,
+     including /privacy and /terms, to save one click.
 
-     Two shapes, depending on the page:
-       - /contact has the calendar inline. It is the page's main content, so
-         it loads as soon as this script runs.
-       - Every other page gets the floating badge, on window load, so a
-         third-party script and its render-blocking stylesheet can never
-         delay the page they sit on. Calendly's own snippet puts that
-         stylesheet in <head> and assigns window.onload directly, which would
-         clobber anything else that wanted it; neither is used here.
-
-     Privacy cost, recorded in /privacy: the badge means Calendly, and its
-     cookies, load on every page rather than only on /contact.
+     The booking address has already moved once (Tracey's personal Calendly to
+     the Generedge account that pays for Calendly and Zoom) and event slugs
+     change whenever an event is renamed, so it lives here and nowhere else:
+     the widget div on /contact ships with no data-url and gets the attribute
+     set below, which is what Calendly's script scans for.
 
      The contact form was removed with the switch to booking. Its Apps Script
      backend is still in google-apps-script/Code.gs and the README still
@@ -166,45 +204,14 @@
      ---------------------------------------------------------------------- */
 
   var CALENDLY_URL = 'https://calendly.com/tracey-generedge/new-meeting';
-  var CALENDLY_JS = 'https://assets.calendly.com/assets/external/widget.js';
-  var CALENDLY_CSS = 'https://assets.calendly.com/assets/external/widget.css';
-
-  var loadCalendly = function (onReady) {
-    var js = document.createElement('script');
-    js.src = CALENDLY_JS;
-    js.async = true;
-    if (onReady) js.onload = onReady;
-    document.head.appendChild(js);
-  };
 
   var inlineWidget = document.querySelector('.calendly-inline-widget');
-
   if (inlineWidget) {
-    /* Calendly's script scans for .calendly-inline-widget[data-url] when it
-       loads, so the address has to be on the element before the script is. */
     inlineWidget.setAttribute('data-url', CALENDLY_URL);
-    loadCalendly();
-  } else {
-    var loadBadge = function () {
-      var css = document.createElement('link');
-      css.rel = 'stylesheet';
-      css.href = CALENDLY_CSS;
-      document.head.appendChild(css);
-
-      loadCalendly(function () {
-        if (!window.Calendly) return;
-        window.Calendly.initBadgeWidget({
-          url: CALENDLY_URL,
-          text: 'Book 15 minutes',
-          color: '#cf4703',
-          textColor: '#ffffff',
-          branding: true
-        });
-      });
-    };
-
-    if (document.readyState === 'complete') loadBadge();
-    else window.addEventListener('load', loadBadge);
+    var calendly = document.createElement('script');
+    calendly.src = 'https://assets.calendly.com/assets/external/widget.js';
+    calendly.async = true;
+    document.head.appendChild(calendly);
   }
 
   /* ----------------------------------------------------------------------
@@ -238,16 +245,6 @@
     var note = document.querySelector('.signup-status');
     var button = signup.querySelector('[type="submit"]');
 
-    /* Last resort, and the behaviour when no endpoint is configured: hand the
-       address to the visitor's mail client instead of dropping it. */
-    var byEmail = function () {
-      window.location.href =
-        'mailto:' + LIST_EMAIL +
-        '?subject=' + encodeURIComponent('Add me to the mailing list') +
-        '&body=' + encodeURIComponent('Please add ' + field.value + ' to the Partner2Impact mailing list.');
-      say('Your email app is opening with the request ready to send.');
-    };
-
     var say = function (message, type) {
       if (!note) return;
       note.textContent = message;
@@ -272,20 +269,18 @@
       }
       field.setAttribute('aria-invalid', 'false');
 
-      if (!MAILING_LIST_ENDPOINT) {
-        byEmail();
-        return;
-      }
 
       var label = button ? button.textContent : '';
       if (button) { button.disabled = true; button.textContent = 'Joining…'; }
 
-      /* Without this, a request that hangs rather than fails leaves the button
-         stuck on "Joining…" for as long as the browser is willing to wait —
-         measured at ~15s on a blocked network. Eight seconds is well past a
-         healthy round trip and well short of a visitor giving up. */
+      /* Apps Script is slow and wildly variable: the same endpoint was measured
+         answering in 2.9s, 8.0s and 11.0s on three consecutive calls, so a
+         cold start can easily pass ten. Twenty-five seconds is generous enough
+         that a working submission is never cut off — the first version used
+         eight and aborted real signups — while still ending a request that has
+         genuinely died instead of leaving the button stuck on "Joining…". */
       var abort = new AbortController();
-      var timer = setTimeout(function () { abort.abort(); }, 8000);
+      var timer = setTimeout(function () { abort.abort(); }, 25000);
 
       var payload = new FormData(signup);
       /* Tells the Apps Script this is a subscription, not a contact enquiry —
@@ -310,12 +305,10 @@
           say('Thank you — you are on the list.');
         })
         .catch(function () {
-          /* Anything the endpoint cannot handle — offline, an Apps Script
-             version that predates the mailing-list branch, a deployment that
-             has been revoked — falls back to the mail client rather than
-             telling the visitor to go away. The address still reaches a
-             person, which is the only thing that actually matters here. */
-          byEmail();
+          /* No mailto fallback. Hijacking the visitor's mail client is a jarring
+             answer to a one-field form, and the address is not lost — the
+             message names where to send it. */
+          say('That did not go through. Please write to ' + LIST_EMAIL + ' and we will add you.', 'error');
         })
         .finally(function () {
           clearTimeout(timer);
