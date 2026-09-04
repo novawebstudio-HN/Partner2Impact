@@ -85,6 +85,14 @@ Measure against the *worst* point of a gradient, not its average.
 
 ## Caveats
 
+- **Sample points covered by a `position: fixed` overlay are dropped.** A floating control
+  sits over the page rather than in it, so a point landing on one measures the overlay, not
+  the backdrop of the text it happens to cover — the floating booking link overlapped two
+  pixels of a paragraph on `/consulting` and reported a 1.29:1 failure no reader would see.
+  Text *inside* such an overlay is exempt from the filter, so the overlay's own label is
+  still measured. Watch out for `offsetParent` as a visibility test here: it is `null` for
+  every `position: fixed` element by spec, so using it filters out exactly what you are
+  collecting.
 - `.skip-link` is excluded. It is positioned off-screen until focused, so
   sampling it reads the page behind it and reports a failure that is not real.
 - `[data-reveal]` elements are forced visible before measuring; otherwise the

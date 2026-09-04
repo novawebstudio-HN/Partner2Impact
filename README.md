@@ -88,23 +88,31 @@ no reordering was needed, only the removal.
 ### The orbital compass
 
 The three pain cards (silent churn, hidden wealth, wasted hours) are replaced by four
-findings arranged around a central anchor, per Tracey's brief. Positions follow her table
-exactly: **capacity top, upgrades right, lapse risk bottom, new prospects left.**
+findings that **orbit** a central anchor, per Tracey's brief. Built in this site's own system
+rather than from the Tailwind blueprint she was given, which assumed a dark slate theme with
+blue and indigo accents and would have landed as a foreign object on a sand section.
 
-It is built in this site's own system rather than from the Tailwind blueprint she was given.
-That blueprint assumed a dark slate theme with blue and indigo accents, and would have landed
-as a foreign object on a sand section. The layout idea is hers; the palette and mechanics are
-the site's. Lapse risk is amber, matching what amber means everywhere else here — the one
-signal that is a loss rather than an opportunity.
+**How the rotation works.** `.orbit-ring` holds four slots pinned to the compass points of a
+square and turns 90° at a time; each card counter-rotates by the same amount, so it travels
+around the circle while its text stays upright. No text on a curve, no per-slot trigonometry.
+Whichever slot lands at the top is the active one — after `k` quarter turns that is the card
+whose index makes `(index + k) % 4` come out zero.
 
-The items carry **no border, fill or shadow**, which was the point of the layout. What holds
-them together is the geometry and a dashed ray from each one toward the centre. Each ray
-belongs to its own item, so hovering lights only that spoke — and the ray is redrawn in the
-accent rather than merely brightening, because a grey dotted line going slightly less grey is
-not a signal anyone notices.
+**The cards sit on the dashed path rather than outside it.** That is what keeps the geometry
+radially symmetric: an outward offset would have to point in a different direction for each
+slot and would break the moment the ring turned. Each card paints the section's own
+background, so the path stops cleanly at its edge instead of running under the words. The
+first version put a node dot on the path too; there is nowhere to put it that the card does
+not cover, so the active state is colour, an accent rule and a little scale instead.
 
-Below 56rem a compass stops reading as one, so it becomes a list: anchor first, then the four
-findings in the order Tracey asked for. The rays go with the geometry that gave them meaning.
+**It pauses on hover and on focus,** and stops entirely under `prefers-reduced-motion`,
+leaving a static diamond with the first card active. A carousel that keeps moving while
+someone is reading it is worse than one that never moves, and the pause is what makes an
+auto-rotating panel acceptable rather than merely fashionable.
+
+Lapse risk is amber, matching what amber means everywhere else here — the one signal that is
+a loss rather than an opportunity. Below 56rem a compass stops reading as one, so it becomes
+a list: anchor first, then the four findings in the order Tracey asked for.
 
 ### The mailing list
 
@@ -125,14 +133,16 @@ subscribers. `/privacy` says so to the visitor as well, and offers removal by em
 
 Two things keep a bad day from losing an address:
 
-- **Any failure falls back to the mail client.** Offline, an Apps Script version that predates
-  the mailing-list branch, a revoked deployment — all land in `byEmail()`, which opens the
-  visitor's mail client with the subscription ready. Emptying `MAILING_LIST_ENDPOINT` does the
-  same thing deliberately.
-- **An eight-second abort.** A request that hangs rather than fails was measured leaving the
-  button stuck on "Joining…" for about fifteen seconds. Eight is well past a healthy round
-  trip and well short of a visitor giving up; the timeout was verified firing at 8.1s and
-  recovering into the mail-client fallback.
+**The timeout is 25 seconds, and that number was earned.** The first version used eight and
+aborted real signups: Apps Script answered the same endpoint in 2.9s, 8.0s and 11.0s on three
+consecutive calls, so a cold start passes ten easily. Twenty-five is generous enough never to
+cut off a working submission while still ending a request that has genuinely died, rather
+than leaving the button stuck on "Joining…".
+
+**A failure shows a message; it does not open the mail client.** An earlier version fell back
+to `mailto:`, which meant a slow-but-working submission hijacked the visitor's email app.
+Hijacking a mail client is a jarring answer to a one-field form, and the address is not lost
+— the message names where to send it.
 
 **Changing `Code.gs` needs a re-deploy to take effect.** In the Apps Script editor, Deploy →
 Manage deployments → edit the existing deployment → New version. Deploying a *new*
@@ -311,9 +321,11 @@ repository setting change, not a code change.
 ## Booking, and the form that used to be here
 
 `/contact` no longer asks questions. It embeds **Calendly's inline widget** and the visitor
-picks a slot directly. Email sits under the calendar. **A Calendly badge floats in the corner
-of every other page**; `/contact` is skipped, since a floating button over an inline calendar
-is silly.
+picks a slot directly. Email sits under the calendar. **Every other page carries `.book-fab`, a plain link to the booking page.** It replaced
+Calendly's floating badge, which cost a third-party script and its cookies on all eight pages
+— including `/privacy` and `/terms` — to save a single click, on a site whose privacy policy
+leads with having none of that. A plain link buys back the whole exposure and works with
+JavaScript off. `/contact` is skipped: the calendar is already the page.
 
 **`CALENDLY_URL` in `main.js` is the only place the booking address appears.** The widget div
 on `/contact` ships with no `data-url` and no script tag of its own — `main.js` sets the

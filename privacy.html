@@ -82,8 +82,8 @@
         <p>
           This website sets no cookies of its own, runs no analytics, and embeds no tracking
           pixels. Our fonts are served from our own domain rather than a font network. The
-          only third-party service we use is our scheduling provider, whose booking button
-          appears on every page and whose calendar is embedded on our contact page. If you
+          only third-party service we use is our scheduling provider, and its calendar loads
+          on our contact page and nowhere else. If you
           join our mailing list we keep your address in a private spreadsheet and nothing
           else. We never sell personal information, and we never sell donor records.
         </p>
@@ -120,11 +120,12 @@
 
       <h2>Booking a call</h2>
       <p>
-        We use <strong>Calendly</strong> for scheduling. Its booking button sits in the corner
-        of every page on this site, and its calendar is embedded on our contact page, so
-        <strong>Calendly loads wherever you are on the site and sets its own cookies in your
-        browser</strong> — not only when you decide to book. It presents its own cookie notice
-        when it does.
+        We use <strong>Calendly</strong> for scheduling, and its calendar is embedded on our
+        contact page. <strong>Loading that page is what loads Calendly; no other page on this
+        site does.</strong> The booking button you see in the corner elsewhere is an ordinary
+        link to our contact page, not a Calendly widget, so reading the rest of the site
+        involves no third party at all. Calendly sets its own cookies when its calendar
+        loads, and presents its own notice when it does.
       </p>
       <p>
         If you book a time, the details you enter — your name, email address and anything else
@@ -191,9 +192,10 @@
 
       <h2>Cookies</h2>
       <p>
-        We set none of our own. The cookies you may find here are Calendly's, set when its
-        booking button or calendar loads — which, as above, is on every page. They are
-        described in Calendly's own notice, and it asks for your choice when it appears.
+        We set none of our own. The only cookies you may meet here are Calendly's, set when
+        its calendar loads on our contact page. They are described in Calendly's own notice,
+        and it asks for your choice when it appears. Every other page on this site sets
+        nothing.
       </p>
 
       <h2>Why we are allowed to process your information</h2>
@@ -330,6 +332,11 @@
     </div>
   </div>
 </footer>
+
+<a class="book-fab" href="/contact#audit">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="17" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>
+  Book 15 minutes
+</a>
 
 <script src="assets/js/main.js" defer></script>
 </body>
