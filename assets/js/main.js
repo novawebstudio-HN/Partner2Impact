@@ -208,6 +208,81 @@
   }
 
   /* ----------------------------------------------------------------------
+     Mailing list
+
+     No provider is wired up yet. Rather than POST into the void and tell the
+     visitor "thanks", an empty endpoint falls back to opening their mail
+     client with the subscription addressed and ready — clumsier, but the
+     address actually reaches a person. When Mailchimp (or whatever is chosen)
+     is set up, paste its endpoint into MAILING_LIST_ENDPOINT and the fetch
+     path takes over with nothing else to change.
+     ---------------------------------------------------------------------- */
+
+  var MAILING_LIST_ENDPOINT = '';
+  var LIST_EMAIL = 'info@partner2impact.com';
+
+  var signup = document.querySelector('[data-signup]');
+  if (signup) {
+    var field = signup.querySelector('input[type="email"]');
+    var note = document.querySelector('.signup-status');
+    var button = signup.querySelector('[type="submit"]');
+
+    var say = function (message, type) {
+      if (!note) return;
+      note.textContent = message;
+      note.className = 'signup-status is-visible' + (type === 'error' ? ' is-error' : '');
+    };
+
+    field.addEventListener('input', function () {
+      if (field.getAttribute('aria-invalid') === 'true' && field.checkValidity()) {
+        field.setAttribute('aria-invalid', 'false');
+        if (note) note.className = 'signup-status';
+      }
+    });
+
+    signup.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      if (!field.checkValidity()) {
+        field.setAttribute('aria-invalid', 'true');
+        say('Please enter a valid email address.', 'error');
+        field.focus();
+        return;
+      }
+      field.setAttribute('aria-invalid', 'false');
+
+      if (!MAILING_LIST_ENDPOINT) {
+        window.location.href =
+          'mailto:' + LIST_EMAIL +
+          '?subject=' + encodeURIComponent('Add me to the mailing list') +
+          '&body=' + encodeURIComponent('Please add ' + field.value + ' to the Partner2Impact mailing list.');
+        say('Your email app is opening with the request ready to send.');
+        return;
+      }
+
+      var label = button ? button.textContent : '';
+      if (button) { button.disabled = true; button.textContent = 'Joining…'; }
+
+      fetch(MAILING_LIST_ENDPOINT, {
+        method: 'POST',
+        body: new FormData(signup),
+        headers: { Accept: 'application/json' }
+      })
+        .then(function (res) { if (!res.ok) throw new Error('Request failed'); })
+        .then(function () {
+          signup.reset();
+          say('Thank you — you are on the list.');
+        })
+        .catch(function () {
+          say('Something went wrong. Please write to ' + LIST_EMAIL + ' instead.', 'error');
+        })
+        .finally(function () {
+          if (button) { button.disabled = false; button.textContent = label; }
+        });
+    });
+  }
+
+  /* ----------------------------------------------------------------------
      Footer year
      ---------------------------------------------------------------------- */
   document.querySelectorAll('[data-year]').forEach(function (el) {
