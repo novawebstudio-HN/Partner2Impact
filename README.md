@@ -67,52 +67,57 @@ to nonprofit-sector organizations, as a track-record block inside `about.html`.
 └── Parnet2Impact Assets/  # original source files as supplied
 ```
 
-## The hero and the four signals
+## The homepage, after Tracey's 3 September edits
 
-The hero is a single dark section and holds one idea: logo, headline, lede, and the
-15-minute button. Nothing else.
+The page runs: hero, the goldmine section with the orbital compass, Data + Strategy,
+hyper-targeting, the partners, the CRM proof strip, the closing CTA, and the mailing list.
 
-**The signals are their own white section, directly below it.** They started inside the hero
-as its visual payload, and Tracey turned that down — not the cards themselves but the cards
-on the navy. Moving them out gives the hero a single job and lets the panel run navy → white
-→ sand down the page. Everything about the card inverts with the move: white surfaces on
-`--line` borders, `--ink` headings, and the accent pair steps down from the dark-background
-`--teal-400` / `--amber-400` to `--teal` / `--amber`.
+**The hero is logo, headline, lede — and no button.** Tracey removed the CTA outright rather
+than replacing it, which works because the sticky header carries "Schedule Your CRM Overview"
+on every scroll position. The hero logo already carries the Data-Driven Fundraising tagline
+(it uses `logo-reverse.svg`); the header's `logo-compact.svg` does not, because Tracey asked
+for it to come off there when the tagline rendered too small.
 
-That accent split is worth knowing before touching it. `--accent` fills the icon and
-`--accent-ink` sets the kicker, and they differ because the hue that carries a 3rem icon tile
-is not the one that clears AA as 0.7rem text over a 10% wash of itself.
+**Two sections were deleted.** The four signals panel — the one that went through three
+rounds of design — and Data as Currency, with the Extract / Enrich / Execute flow and David's
+quote. The quote still appears on `/about`, `/tool`, `/consulting` and `/contact`; Tracey has
+not yet said where it should live on the homepage. Deleting Data as Currency is what moved
+hyper-targeting up to sit directly after Data + Strategy, which is where she asked for it —
+no reordering was needed, only the removal.
 
-The four items are Tracey's, from her "Fusion of Predictive Data and Strategy" graphic. Her
-wording is verbatim — major gift prospects, lapse risk, upgrade donors, new prospects. The
-AI-generated artwork is not used.
+### The orbital compass
 
-**There are no charts in these cards, and that is the finished answer rather than a gap.**
-Two rounds tried to draw the signals: first the same five-bar chart on all four, then a
-different drawing per card — a scatter of donors, a declining line with a recovery branch,
-a climb between giving tiers, prospects converging on a mission. Tracey rejected both. The
-second round is the more useful lesson: the drawings were individually defensible and still
-wrong, because each one needed a caption to be understood. A graphic that has to be explained
-is not carrying meaning, it is occupying space, and four of them side by side read as filler
-no matter how carefully each is composed. We have no real figures to plot here, and inventing
-some to fill the cards would be worse than leaving them out.
+The three pain cards (silent churn, hidden wealth, wasted hours) are replaced by four
+findings arranged around a central anchor, per Tracey's brief. Positions follow her table
+exactly: **capacity top, upgrades right, lapse risk bottom, new prospects left.**
 
-So the card is icon, category, title, sentence — and nothing else. The icon grew to 3rem and
-leads the card instead of floating in a corner; the category left its pill and became a
-kicker, which drops a whole visual layer without dropping any of Tracey's words. Hover fills
-the icon solid with the accent and draws a hairline across the top. That is the entire
-interaction, and it is enough: the cards are being picked out, not performing.
+It is built in this site's own system rather than from the Tailwind blueprint she was given.
+That blueprint assumed a dark slate theme with blue and indigo accents, and would have landed
+as a foreign object on a sand section. The layout idea is hers; the palette and mechanics are
+the site's. Lapse risk is amber, matching what amber means everywhere else here — the one
+signal that is a loss rather than an opportunity.
 
-The section also gained the headline it never had. The two uppercase lines that used to
-bracket the cards were captions on Tracey's slide, and on a web page they read as orphaned
-text. "Empowering nonprofit fundraising" is now the section eyebrow. "Fusion of predictive
-data and strategy" is gone: with a real headline above the cards, a second brand line below
-them is one too many. **The headline itself — "Four things your database already knows" — is
-new copy and needs Tracey's sign-off.** It makes no claim the site does not already make, but
-it is the only line in this section she did not write.
+The items carry **no border, fill or shadow**, which was the point of the layout. What holds
+them together is the geometry and a dashed ray from each one toward the centre. Each ray
+belongs to its own item, so hovering lights only that spoke — and the ray is redrawn in the
+accent rather than merely brightening, because a grey dotted line going slightly less grey is
+not a signal anyone notices.
 
-The donor-intelligence dashboard now lives on `tool.html`, where a product view belongs,
-with a caption stating that the figures are illustrative.
+Below 56rem a compass stops reading as one, so it becomes a list: anchor first, then the four
+findings in the order Tracey asked for. The rays go with the geometry that gave them meaning.
+
+### The mailing list
+
+Sits after the closing CTA, on the homepage. Booking a call is the page's primary ask; a
+mailing list is the lighter one, for the visitor who is not ready to put time in a calendar,
+so putting it first would have it competing with the thing the page is for.
+
+**No provider is wired up yet.** `MAILING_LIST_ENDPOINT` in `main.js` is empty, and an empty
+endpoint falls back to opening the visitor's mail client with the subscription addressed and
+ready. Clumsier than an inline confirmation, but the address reaches a person instead of
+disappearing — a signup form that silently discards emails is worse than no form. Paste the
+provider's endpoint into that constant and the fetch path takes over with nothing else to
+change.
 
 ## Logo
 
@@ -451,7 +456,16 @@ cadence, it does not stream them live.
 ## Navigation
 
 **Home · About Us · Solutions · Contact Us**, with Solutions opening a dropdown that holds
-The Data Tool, Hyper-Targeting and Consulting, in that order.
+Schedule Your CRM Overview, Hyper-Targeting and Consulting, in that order.
+
+**Two things in the header now read "Schedule Your CRM Overview".** Tracey asked for the
+amber button to take that name, and separately for the dropdown's "The Data Tool" to be
+relabelled the same way; Eduardo confirmed the dropdown item should keep pointing at `/tool`.
+So the header shows one label twice, going to two different places — the button to
+`/contact#audit`, the menu item to the Data Tool page, which is still titled "The Data Tool"
+in its own `<title>` and breadcrumb. It is worth revisiting: a visitor clicking the menu item
+expects a calendar and lands on a product page. The page's own name was left alone because
+renaming a `<title>` costs indexing, and Tracey did not ask for it.
 
 **Resources is deliberately absent.** Tracey's nav sketch listed it, but there is no such
 page and no content for one yet. A nav item pointing at a 404 is worse than a missing one, so
@@ -520,6 +534,10 @@ deliberately absent rather than invented, and all three want a qualified review:
 ## Open items before launch
 
 These need Tracey's confirmation — they are claims or assets the site presents as fact:
+
+0. **Two identical nav labels.** See Navigation above — the header button and the Solutions
+   dropdown item both read "Schedule Your CRM Overview" and go to different pages. This is
+   what was asked for, and it is the first thing worth a second look.
 
 1. **The dashboard on `tool.html` is illustrative.** The figures ($2.4M portfolio, the donor
    names and scores) are invented placeholders showing the shape of the output. A visible
