@@ -1042,10 +1042,31 @@ strong { font-weight: 650; }
   overflow: hidden;
 }
 .scheduler-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
   margin: 0;
   padding: clamp(1.75rem, 1.4rem + 1.5vw, 3rem);
   text-align: center;
-  color: var(--slate-700);
+  color: var(--slate-500);
+}
+.scheduler-fallback.is-error { display: block; color: var(--slate-700); }
+
+.scheduler-spinner {
+  flex: none;
+  width: 1.05rem;
+  height: 1.05rem;
+  border: 2px solid var(--sand-200);
+  border-top-color: var(--teal);
+  border-radius: 50%;
+  animation: scheduler-spin 0.75s linear infinite;
+}
+.is-error .scheduler-spinner { display: none; }
+@keyframes scheduler-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .scheduler-spinner { animation: none; border-top-color: var(--sand-200); }
 }
 /* Calendly APPENDS its iframe to the widget div rather than replacing what is
    already inside it, so the fallback has to be switched off once the iframe

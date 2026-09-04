@@ -184,34 +184,44 @@
   }
 
   /* ----------------------------------------------------------------------
-     Calendly
+     Booking calendar status
+
+     The widget markup and its script live in contact.html so the browser can
+     fetch Calendly while it parses the page — main.js is not on that critical
+     path any more. All that is left here is the honest reporting.
+
+     Calendly takes several seconds to boot even on a good connection, and it
+     appends its iframe rather than replacing what it finds, so the message in
+     the div is what the visitor reads the whole time. It says "loading". Only
+     if no iframe has arrived after twenty seconds does it become an error —
+     saying "could not load" while it is merely slow is a lie the visitor acts
+     on, and it was on the live site.
 
      Only /contact loads Calendly. Every other page carries .book-fab, a plain
-     link to the booking page — no third-party script, no cookies, nothing to
-     consent to on a page someone is only reading. The floating Calendly badge
-     that used to sit there cost a script and its cookies on all eight pages,
-     including /privacy and /terms, to save one click.
-
-     The booking address has already moved once (Tracey's personal Calendly to
-     the Generedge account that pays for Calendly and Zoom) and event slugs
-     change whenever an event is renamed, so it lives here and nowhere else:
-     the widget div on /contact ships with no data-url and gets the attribute
-     set below, which is what Calendly's script scans for.
-
-     The contact form was removed with the switch to booking. Its Apps Script
-     backend is still in google-apps-script/Code.gs and the README still
-     carries the wiring, in case a form is ever wanted again.
+     link to this one: no third-party script and no cookies on a page someone
+     is only reading.
      ---------------------------------------------------------------------- */
+  var scheduler = document.querySelector('.calendly-inline-widget');
+  var schedulerStatus = document.querySelector('[data-scheduler-status]');
 
-  var CALENDLY_URL = 'https://calendly.com/tracey-generedge/new-meeting';
+  if (scheduler && schedulerStatus) {
+    var failed = setTimeout(function () {
+      if (scheduler.querySelector('iframe')) return;
+      schedulerStatus.classList.add('is-error');
+      schedulerStatus.innerHTML =
+        'The booking calendar could not load. Write to ' +
+        '<a href="mailto:info@partner2impact.com">info@partner2impact.com</a> ' +
+        'and we will find a time.';
+    }, 20000);
 
-  var inlineWidget = document.querySelector('.calendly-inline-widget');
-  if (inlineWidget) {
-    inlineWidget.setAttribute('data-url', CALENDLY_URL);
-    var calendly = document.createElement('script');
-    calendly.src = 'https://assets.calendly.com/assets/external/widget.js';
-    calendly.async = true;
-    document.head.appendChild(calendly);
+    if ('MutationObserver' in window) {
+      var watcher = new MutationObserver(function () {
+        if (!scheduler.querySelector('iframe')) return;
+        clearTimeout(failed);
+        watcher.disconnect();
+      });
+      watcher.observe(scheduler, { childList: true });
+    }
   }
 
   /* ----------------------------------------------------------------------
