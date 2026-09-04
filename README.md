@@ -327,12 +327,20 @@ Calendly's floating badge, which cost a third-party script and its cookies on al
 leads with having none of that. A plain link buys back the whole exposure and works with
 JavaScript off. `/contact` is skipped: the calendar is already the page.
 
-**`CALENDLY_URL` in `main.js` is the only place the booking address appears.** The widget div
-on `/contact` ships with no `data-url` and no script tag of its own — `main.js` sets the
-attribute before appending Calendly's script, which is what that script scans for. This is
-worth the small indirection because the address is not stable: it has already moved from
-Tracey's personal Calendly to the Generedge account that pays for Calendly and Zoom, and a
-slug changes whenever an event is renamed. Two copies would have drifted on the first move.
+**The booking URL and Calendly's script sit in `contact.html`, not in `main.js`.** They were
+routed through `main.js` while a floating Calendly badge shared the address across every
+page; with that badge replaced by a plain link, `/contact` is the only page that needs it,
+and the indirection was costing a serial hop on the one page where the calendar *is* the
+content — parse, then `main.js`, then the widget. It is back in the markup with a
+`preconnect` in the head, so the browser opens the connection during parse.
+
+**The message inside the widget div is a loading state, not an error.** Calendly appends its
+iframe rather than replacing what it finds, so whatever sits there is what the visitor reads
+for the seven-odd seconds the widget takes to boot — and the first version said "the booking
+calendar could not load" for all of them, on the live site. It now shows a spinner and
+"loading", and `main.js` turns it into a real error only if no iframe has arrived after
+twenty seconds. Most of those seven seconds are Calendly's own app booting inside the iframe
+and cannot be shortened from here; what was removed is the part that was ours.
 
 Neither shape uses Calendly's copy-paste snippet. Their stylesheet is render-blocking and
 their snippet puts it in `<head>`, so the badge loads on window load instead and can never
